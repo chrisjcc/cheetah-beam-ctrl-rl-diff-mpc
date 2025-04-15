@@ -6,6 +6,7 @@ import gymnasium as gym
 import numpy as np
 import torch
 from gymnasium import spaces
+
 from src.environments.base_backend import TransverseTuningBaseBackend
 from src.environments.beam_dynamics import BeamDynamics
 from src.environments.differential_area_segment import DifferentialAREASegment
@@ -190,7 +191,7 @@ class CheetahEnv(gym.Env, TransverseTuningBaseBackend):
         self.generate_screen_images = generate_screen_images
         self.simulate_finite_screen = simulate_finite_screen
 
-        # Initialize differentiable segment to setup simulation
+        # Initialize differentiable segment setup simulation
         self.segment = DifferentialAREASegment()
 
         # Spaces for domain randomisation
@@ -259,6 +260,7 @@ class CheetahEnv(gym.Env, TransverseTuningBaseBackend):
             incoming_parameters, dtype=torch.float32, requires_grad=True
         )
 
+        # Create beam
         self.incoming = cheetah.ParameterBeam.from_parameters(
             energy=self.incoming_params[0],
             mu_x=self.incoming_params[1],

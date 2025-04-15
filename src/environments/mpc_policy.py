@@ -4,11 +4,11 @@ import numpy as np
 import torch
 import torch.nn as nn
 from gymnasium import spaces
+from stable_baselines3.common.distributions import DiagGaussianDistribution
+from stable_baselines3.common.policies import ActorCriticPolicy
 
 # Import the MPC solver components
 from src.environments.mpc_controller import MPCController
-from stable_baselines3.common.distributions import DiagGaussianDistribution
-from stable_baselines3.common.policies import ActorCriticPolicy
 
 
 class MPCPolicy(ActorCriticPolicy):
@@ -54,7 +54,9 @@ class MPCPolicy(ActorCriticPolicy):
         self.lqr_iter = lqr_iter
         self.R_scale = R_scale
 
-        self.mpc_controller = MPCController(self.env, horizon, lqr_iter, R_scale)
+        self.mpc_controller = MPCController(
+            self.env, self.horizon, self.lqr_iter, self.R_scale
+        )
 
         # Function to extract target state from observation
         self.target_state_fn = (
@@ -103,7 +105,7 @@ class MPCPolicy(ActorCriticPolicy):
         )  # Ensure positive diagonal
         p = cost_params[:, self.combined_dim:]
 
-        # In MPCPolicy.forward
+        # Map cost parameters to control actions via MPC
         action = self.mpc_controller.get_action_from_cost_params(
             current_state, target_state, q_diag, p
         )
@@ -132,9 +134,8 @@ class MPCPolicy(ActorCriticPolicy):
         dist = self._get_action_dist_from_latent(latent_pi)
         predicted_cost_params = dist.get_actions(deterministic=True)  # [batch_size, 18]
 
-        # Since `actions` from the rollout buffer are control actions (5D),
-        # we need to compare them with the MPC output, not the cost parameters
-        # directly
+        # Since `actions` from the rollout buffer are control actions (5D), we need to compare
+        # them with the MPC output, not the cost parameters directly
         q_diag = torch.exp(predicted_cost_params[:, : self.combined_dim])
         p = predicted_cost_params[:, self.combined_dim:]
 

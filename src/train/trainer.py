@@ -182,7 +182,8 @@ def train(config: dict) -> None:
 
     # Train using a single environment
     model = PPO(
-        "MlpPolicy",
+        #"MlpPolicy",
+        MPCPolicy,
         train_env,
         learning_rate=config["learning_rate"],
         n_steps=config["n_steps"],
@@ -270,10 +271,8 @@ def make_env(
         render_mode="rgb_array",
         reward_signals=config["reward_signals"],
     )
-
-    # Wrap environment ina differential MPC
+    # Wrap environment around a differential MPC
     env = MPCController(env)
-
     env = TimeLimit(env, config["max_episode_steps"])
     if plot_episode:
         env = PlotEpisode(

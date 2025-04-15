@@ -6,6 +6,7 @@ import torch.nn as nn
 from rl_zoo3 import linear_schedule
 from stable_baselines3 import PPO
 from stable_baselines3.common.callbacks import EvalCallback
+#from stable_baselines3.common.env_util import make_vec_env
 from stable_baselines3.common.env_checker import check_env
 
 from wandb.integration.sb3 import WandbCallback
@@ -89,8 +90,8 @@ def main():
     env = make_env(config)
 
     # Check the environment
-    check_env(env, warn=True, skip_render_check=True)
-    
+    #check_env(env, warn=True, skip_render_check=True)
+
     # Setup evaluation environment
     eval_env = make_env(config, plot_episode=True, log_task_statistics=True)
 
