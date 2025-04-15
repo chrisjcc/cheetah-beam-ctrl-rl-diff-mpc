@@ -1,0 +1,1593 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>ARES.js app</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="https://cdn.plot.ly/plotly-3.0.1.min.js"></script> <!-- 2D plotting -->
+    <script
+      id="MathJax-script"
+      type="text/javascript"
+      async
+      src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"
+    ></script>
+  </head>
+  <body style="background-color: white">
+    <!-- dimgrey -->
+    <!--
+    <header>
+		<h1 style="text-align: left; margin-left: 1em;">ARES model</h1>
+		<p style="text-align: left; margin-left: 2em;">
+		</p>
+	</header>
+	-->
+    <main>
+      <div id="container3D"></div>
+    </main>
+
+    <div class="text-box" id="text-box-electronsource-de" hidden>
+      <h2>Gun</h2>
+      <p>
+        <em>Die Reise beginnt:</em> Die Teilchenstrahlkanone ist die erste und
+        wesentlichste Komponente eines Teilchenbeschleunigers und bildet den
+        Ausgangspunkt für den gesamten Beschleunigungsprozess. Sie erzeugt den
+        initialen Teilchenstrahl, liefert einen entscheidenden Energieschub und
+        bereitet den Teilchenstrahl für die weitere Beschleunigung durch
+        Hohlraumresonatoren und Magneten vor.
+      </p>
+
+      <!--
+      <img
+        src="images/gun.jpg"
+        alt="A picture of a particle gun"
+        class="image"
+      />
+      -->
+
+      <p>Hier ist, wie es funktioniert:</p>
+
+      <ol>
+        <li>
+          <strong>Erzeugung von Teilchen:</strong> Die Kanone erzeugt Teilchen
+          mithilfe des photoelektrischen Effekts. Zum Beispiel führt das
+          Bestrahlen einer Kathode – oft aus Materialien wie Kupfer oder
+          Cäsiumtellurid – mit Laserlicht zur Freisetzung von Elektronen.
+        </li>
+        <li>
+          <strong>Initiale Beschleunigung:</strong> Starke elektrische Felder
+          beschleunigen die Teilchen unmittelbar nach ihrer Erzeugung, verleihen
+          ihnen einen initialen Energieschub und bringen sie auf hohe
+          Geschwindigkeiten.
+        </li>
+        <li>
+          <strong>Ausrichtung und Bündelung:</strong> Die Kanone beschleunigt
+          nicht nur Teilchen, sondern formt sie auch zu einem kompakten, gut
+          ausgerichteten Strahl. Dieser Schritt ist entscheidend, um
+          sicherzustellen, dass die Teilchen effizient durch die nachfolgenden
+          Beschleunigerstufen reisen können.
+        </li>
+        <li>
+          <strong>Hohe Präzision:</strong> Die Kanone arbeitet mit hoher
+          Präzision. Der Zeitpunkt der Freisetzung der Teilchen und die Stärke
+          der elektrischen Felder werden sorgfältig gesteuert, um
+          sicherzustellen, dass die Teilchen mit der richtigen Geschwindigkeit
+          und Flugbahn starten.
+        </li>
+      </ol>
+
+      <p>
+        Im Wesentlichen dient die Teilchenstrahlkanone als grundlegender
+        Startmechanismus in der Beschleunigerphysik und ebnet den Teilchen den
+        Weg für bahnbrechende wissenschaftliche Entdeckungen.
+      </p>
+      <button class="closeButton">X</button>
+    </div>
+
+    <div class="text-box" id="text-box-electronsource-en" hidden>
+      <h2>Gun</h2>
+      <p>
+        <em>Let the journey begin:</em> The particle beam gun is the first and
+        most essential component of a particle accelerator, serving as the
+        starting point for the entire acceleration process. It generates the
+        initial particle beam, provides a crucial energy boost, and prepares the
+        particle beam for further acceleration through cavities and magnets.
+      </p>
+
+      <!--
+      <img
+        src="images/gun.jpg"
+        alt="A picture of a particle gun"
+        class="image"
+      />
+      -->
+
+      <p>Here is how it works:</p>
+
+      <ol>
+        <li>
+          <strong>Generation of particles:</strong> The gun produces particles
+          using the photoelectric effect. For example, shining laser light onto
+          a cathode—often made of materials like copper or cesium
+          telluride—releases electrons.
+        </li>
+        <li>
+          <strong>Initial acceleration:</strong> Strong electric fields
+          accelerate the particles immediately after their creation, giving them
+          an initial energy boost and bringing them to high speeds.
+        </li>
+        <li>
+          <strong>Alignment and bundling:</strong> The gun not only accelerates
+          particles but also directs them into a compact, well-aligned beam.
+          This step is vital for ensuring the particles can travel efficiently
+          through subsequent accelerator stages.
+        </li>
+        <li>
+          <strong>High precision:</strong> The gun operates with high precision.
+          The timing of particle release and the strength of the electric fields
+          are carefully controlled to ensure particles start with the correct
+          speed and trajectory.
+        </li>
+      </ol>
+
+      <p>
+        Essentially, the particle beam gun serves as the foundational launching
+        mechanism in accelerator physics, setting particles on their path for
+        groundbreaking scientific exploration.
+      </p>
+      <button class="closeButton">X</button>
+    </div>
+
+    <div class="text-box" id="text-box-quadcore-de" hidden>
+      <h2>Quadropol</h2>
+
+      <p>
+        <em>Alle zusammen bleiben:</em> Ein Quadrupolmagnet in einem
+        Teilchenbeschleuniger funktioniert wie eine spezielle Art von Linse für
+        Teilchen. Genau wie eine gewöhnliche Linse Licht auf einen Punkt
+        fokussiert, verwendet ein Quadrupolmagnet Magnetfelder, um Strahlen
+        geladener Teilchen, wie Protonen oder Elektronen, auf einen schmalen
+        Pfad zu fokussieren.
+      </p>
+
+      <!--
+      <img
+        src="images/quadro.jpeg"
+        alt="A picture of a quadropol magnet"
+        class="image"
+      />
+      -->
+
+      <p>Hier ist, wie es funktioniert:</p>
+
+      <ol>
+        <li>
+          <strong>Magnetfelder:</strong> Ein Quadrupolmagnet hat vier
+          Magnetpole, die in einem Quadrat angeordnet sind. Zwei dieser Pole
+          sind Nordpole und zwei sind Südpole, die sich abwechselnd um das
+          Quadrat herum befinden.
+        </li>
+        <li>
+          <strong>Fokussiereffekt:</strong> Wenn ein Teilchenstrahl durch den
+          Quadrupolmagneten hindurchgeht, drücken die Magnetfelder die Teilchen
+          von zwei Seiten zur Mitte hin, während sie sie von den anderen zwei
+          Seiten auseinanderziehen.
+          <em
+            >Hierdurch können die Teilchen in eine Richtung fokussiert werden,
+            es hat aber den unerwünschten Nebeneffekt, dass sie in der anderen
+            Richtung deffokussiert werden.</em
+          >
+          Durch sorgfältige Anordnung mehrerer Quadrupolmagneten können
+          Wissenschaftler die Teilchen dicht beieinander halten und auf dem
+          richtigen Weg.
+        </li>
+        <li>
+          <strong>Anpassung des Strahls:</strong> Indem die Stärke der
+          Magnetfelder verändert wird, können Wissenschaftler einstellen, wie
+          stark der Strahl fokussiert wird. Das ist entscheidend, um
+          sicherzustellen, dass die Teilchen in Experimenten präzise
+          kollidieren, was notwendig ist, um die grundlegenden Bestandteile der
+          Materie zu untersuchen.
+        </li>
+      </ol>
+
+      <p>
+        Im Wesentlichen helfen Quadrupolmagneten, den Teilchenstrahl
+        kontrolliert und präzise zu halten, was für die hochpräzisen Experimente
+        in Teilchenbeschleunigern unerlässlich ist.
+      </p>
+      <button class="closeButton">X</button>
+    </div>
+
+    <div class="text-box" id="text-box-quadcore-en" hidden>
+      <h2>Quadrupole</h2>
+
+      <p>
+        <em>Stay all together:</em> A quadrupole magnet in a particle
+        accelerator works like a special kind of lens for particles. Just like
+        an ordinary lens focuses light onto a point, a quadrupole magnet uses
+        magnetic fields to focus beams of charged particles, such as protons or
+        electrons, onto a narrow path.
+      </p>
+
+      <!--
+      <img
+        src="images/quadro.jpeg"
+        alt="A picture of a quadrupole magnet"
+        class="image"
+      />
+      -->
+
+      <p>Here's how it works:</p>
+
+      <ol>
+        <li>
+          <strong>Magnetic fields:</strong> A quadrupole magnet has four
+          magnetic poles arranged in a square. Two of these poles are north
+          poles and two are south poles, alternating around the square.
+        </li>
+        <li>
+          <strong>Focusing effect:</strong> When a beam of particles passes
+          through the quadrupole magnet, the magnetic fields push the particles
+          towards the centre from two sides while pulling them apart from the
+          other two sides.
+          <em
+            >This can focus the particles in one direction, but it has the
+            undesirable side effect of de-focussing them in the other
+            direction.</em
+          >
+          By carefully arranging multiple quadrupole magnets, scientists can
+          keep the particles close together and on the right path.
+        </li>
+        <li>
+          <strong>Adjusting the beam:</strong> By changing the strength of the
+          magnetic fields, scientists can adjust how strongly the beam is
+          focussed. This is crucial to ensure that particles collide precisely
+          in experiments, which is necessary to study the fundamental
+          constituents of matter.
+        </li>
+      </ol>
+
+      <p>
+        Essentially, quadrupole magnets help to keep the particle beam
+        controlled and precise, which is essential for the high-precision
+        experiments in particle accelerators.
+      </p>
+
+      <button class="closeButton">X</button>
+    </div>
+
+    <div class="text-box" id="text-box-beam-de" hidden>
+      <h2>Beam</h2>
+      <p>
+        <em>Der Elektronen-Zug:</em> Der Strahl in einem Teilchenbeschleuniger
+        besteht aus den eigentlich beschleunigten Teilchen und beschreibt deren
+        Trajektorie. Die Teilchen werden zum Beispiel am European pulisiert mit
+        10 Hz, geschossen. Dabei wird in jedem Puls ein Zug aus Teilchenpaketen,
+        sogenannten “Bunches” generiert.
+      </p>
+
+      <button class="closeButton">X</button>
+    </div>
+
+    <div class="text-box" id="text-box-beam-en" hidden>
+      <h2>Beam</h2>
+      <p>
+        <em>The electron train:</em> The beam in a particle accelerator consists
+        of the actual accelerated particles and describes their trajectory. The
+        particles are shot at the European, for example, pulsed at 10 Hz. In
+        each pulse, a train of particle packets, so-called 'bunches', is
+        generated.
+      </p>
+
+      <button class="closeButton">X</button>
+    </div>
+
+    <div class="text-box" id="text-box-steering-de" hidden>
+      <h2>Dipol</h2>
+
+      <p>
+        <em>Immer auf der Bahn bleiben:</em> Ein Dipolmagnet in einem
+        Teilchenbeschleuniger spielt eine entscheidende Rolle dabei, den Weg der
+        Teilchen zu lenken. Man kann ihn sich wie eine Art Lenkrad vorstellen,
+        das die Richtung der geladenen Teilchen steuert, während sie durch den
+        Beschleuniger rasen.
+      </p>
+
+      <!--
+      <img
+        src="images/steering.jpeg"
+        alt="A picture of a steering magnet"
+        class="image"
+      />
+      -->
+
+      <p>Hier ist, wie es funktioniert:</p>
+
+      <ol>
+        <li>
+          <strong>Magnetfelder</strong>: Ein Dipolmagnet hat zwei Pole – einen
+          Nordpol und einen Südpol. Diese Pole erzeugen ein gleichmäßiges
+          Magnetfeld zwischen sich.
+        </li>
+        <li>
+          <strong>Lenkung der Teilchen</strong>: Wenn ein Teilchenstrahl durch
+          den Dipolmagneten hindurchgeht, wirkt in den Magnetfeldern die
+          Lorentzkraft, die die geladenen Teilchen auf eine Kurve zwingt.
+        </li>
+        <li>
+          <strong>Anpassung der Stärke</strong>: Durch die Anpassung der Stärke
+          des Magnetfeldes können Wissenschaftler bestimmen, wie stark die
+          Teilchen abgelenkt werden. Dies ist besonders wichtig, um die Teilchen
+          auf ihrer vorgegebenen Bahn zu halten und präzise zu steuern.
+        </li>
+      </ol>
+
+      <p>
+        Im Wesentlichen sind Dipolmagnete die Schlüsselkomponenten, die den
+        Teilchenstrahl lenken und sicherstellen, dass die Teilchen den richtigen
+        Weg durch den Beschleuniger nehmen. Sie sind unerlässlich, um die
+        Teilchen auf der vorgesehenen Bahn zu halten und für die erfolgreichen
+        Experimente in Teilchenbeschleunigern zu sorgen.
+      </p>
+      <button class="closeButton">X</button>
+    </div>
+    <div class="text-box" id="text-box-steering-en" hidden>
+      <h2>Dipole</h2>
+
+      <p>
+        <em>Follow the path:</em> A dipole magnet in a particle accelerator
+        plays a crucial role in guiding the path of the particles. You can think
+        of it as a kind of steering wheel that controls the direction of the
+        charged particles as they race through the accelerator.
+      </p>
+
+      <!--
+      <img
+        src="images/steering.jpeg"
+        alt="A picture of a steering magnet"
+        class="image"
+      />
+      -->
+
+      <p>Here is how it works:</p>
+
+      <ol>
+        <li>
+          <strong>Magnetic fields</strong>: A dipole magnet has two poles – a
+          north pole and a south pole. These poles create a uniform magnetic
+          field between them.
+        </li>
+        <li>
+          <strong>Control of the particles</strong>: When a particle beam passes
+          through the dipole magnet, the Lorentz force acts in the magnetic
+          fields, forcing the charged particles into a curve.
+        </li>
+        <li>
+          <strong>Adjusting the strength:</strong> By adjusting the strength of
+          the magnetic field, scientists can determine how much the particles
+          are deflected. This is particularly important in order to keep the
+          particles on their specified path and to control them precisely.
+        </li>
+      </ol>
+
+      <p>
+        Essentially, dipole magnets are the key components that direct the
+        particle beam and ensure that the particles take the correct path
+        through the accelerator. They are essential for keeping the particles on
+        the intended path and for successful experiments in particle
+        accelerators.
+      </p>
+      <button class="closeButton">X</button>
+    </div>
+
+    <div class="text-box" id="text-box-screen-de" hidden>
+      <h2>Screen</h2>
+
+      <p><em>Elektronen sichtbar machen:</em></p>
+      <p>
+        Ein Szintillationsschirm in einem Teilchenbeschleuniger ist ein
+        spezielles Instrument, das dazu verwendet wird, den Weg und die
+        Eigenschaften von Teilchenstrahlen sichtbar zu machen. Man kann ihn sich
+        wie einen Bildschirm vorstellen, der aufleuchtet, wenn Teilchen auf ihn
+        treffen, und so eine direkte Beobachtung mit Hilfe einer Kamera
+        ermöglicht.
+      </p>
+
+      <!--
+      <img
+        src="images/panel.png"
+        alt="A picture of the panel of a screen station"
+        class="image"
+      />
+      -->
+
+      <p>Hier ist, wie es funktioniert:</p>
+
+      <ol>
+        <li>
+          <strong>Interaktion mit Teilchen</strong>: Wenn Teilchen aus dem
+          Beschleuniger auf den Szintillationsschirm treffen, geben sie ihre
+          Energie an die Atome des Schirmmaterials ab. Diese Energieübertragung
+          führt dazu, dass die Atome des Materials in einen angeregten Zustand
+          versetzt werden.
+        </li>
+        <li>
+          <strong>Lichtemission</strong>: Die angeregten Atome kehren schnell in
+          ihren Grundzustand zurück und emittieren dabei Licht. Dieses
+          ausgesendete Licht ist sichtbar und kann direkt beobachtet oder mit
+          speziellen Kameras erfasst werden.
+        </li>
+        <li>
+          <strong>Visualisierung</strong>: Der Szintillationsschirm macht den
+          Weg und die Position der Teilchenstrahlen sichtbar. Das aufleuchtende
+          Licht zeigt, wo die Teilchen den Schirm getroffen haben. Dies
+          ermöglicht eine direkte Visualisierung von Position, Größe und Form
+          des Strahls, und hilft den Wissenschaftlern, den Strahlverlauf zu
+          überprüfen und zu optimieren.
+        </li>
+        <li>
+          <strong>Präzise Kontrolle</strong>: Durch die Beobachtung des
+          aufleuchtenden Musters auf dem Szintillationsschirm können
+          Wissenschaftler die Form, Intensität und Ausrichtung des
+          Teilchenstrahls präzise steuern. Dies ist entscheidend für
+          Experimente, die hohe Genauigkeit erfordern.
+        </li>
+      </ol>
+
+      <p>
+        Im Wesentlichen ist der Szintillationsschirm ein unverzichtbares
+        Werkzeug, um den unsichtbaren Teilchenstrahl sichtbar zu machen. Er
+        ermöglicht Wissenschaftlern eine direkte Beobachtung und Kontrolle des
+        Strahls, was für erfolgreiche Experimente und Anwendungen in der
+        Teilchenphysik und darüber hinaus unerlässlich ist.
+        <em>Destruktive Diagnostik.</em>
+      </p>
+
+      <button class="closeButton">X</button>
+    </div>
+
+    <div class="text-box" id="text-box-screen-en" hidden>
+      <h2>Screen</h2>
+
+      <p><em>Making electrons visible:</em></p>
+      <p>
+        A scintillation screen in a particle accelerator is a special instrument
+        that is used to visualise the path and properties of particle beams. You
+        can think of it as a screen that lights up when particles hit it,
+        allowing direct observation using a camera.
+      </p>
+
+      <!--
+      <img
+        src="images/panel.png"
+        alt="A picture of the panel of a screen station"
+        class="image"
+      />
+      -->
+
+      <p>Here's how it works:</p>
+
+      <ol>
+        <li>
+          <strong>Interaction with particles</strong>: When particles from the
+          accelerator hit the scintillation screen, they transfer their energy
+          to the atoms of the screen material. This energy transfer leads to the
+          atoms of the material being put into an excited state.
+        </li>
+        <li>
+          <strong>Light emission</strong>: The excited atoms quickly return to
+          their ground state, emitting light in the process. This emitted light
+          is visible and can be observed directly or captured with special
+          cameras.
+        </li>
+        <li>
+          <strong>Visualisation</strong>: The scintillation screen visualises
+          the path and position of the particle beams. The illuminated light
+          shows where the particles have hit the screen. This enables direct
+          visualisation of the position, size and shape of the beam, and helps
+          scientists to check and optimise the beam path.
+        </li>
+        <li>
+          <strong>Precise control</strong>: By observing the pattern that lights
+          up on the scintillation screen, scientists can precisely control the
+          shape, intensity and direction of the particle beam. This is crucial
+          for experiments that require high accuracy.
+        </li>
+      </ol>
+
+      <p>
+        Essentially, the scintillation screen is an indispensable tool for
+        visualising the invisible particle beam. It allows scientists to
+        directly observe and control the beam, which is essential for su
+
+        <button class="closeButton">X</button>
+      </p>
+    </div>
+
+    <div class="text-box" id="text-box-camera-de" hidden>
+      <h2>Kamera</h2>
+      <p>
+        Die Verwendung einer Kamera zur Betrachtung des Diagnosebildschirms
+        eines Beschleunigers ist ein praktischer Ansatz zur Fernüberwachung und
+        Erfassung von Echtzeitdaten, die auf der Steuer- oder
+        Diagnoseschnittstelle des Systems angezeigt werden.
+      </p>
+      <button class="closeButton">X</button>
+    </div>
+
+    <div class="text-box" id="text-box-camera-en" hidden>
+      <h2>Camera</h2>
+      <p>
+        Using a camera to view a diagnostic screen of an accelerator is a
+        practical approach for remotely monitoring and capturing real-time data
+        displayed on the control or diagnostic interface of the system.
+      </p>
+      <button class="closeButton">X</button>
+    </div>
+
+    <div class="text-box" id="text-box-torus-de" hidden>
+      <h2>Cavity</h2>
+      <p>
+        <em>Und noch schneller:</em> Eine Kavität in einem Teilchenbeschleuniger
+        ist ein wesentliches Bauteil, das dazu dient, die Teilchen zu
+        beschleunigen. Man kann sie sich wie eine Art Motor vorstellen, der den
+        Teilchen auf ihrem Weg durch den Beschleuniger einen kräftigen Schub
+        verleiht.
+      </p>
+
+      <p>Hier ist, wie es funktioniert:</p>
+
+      <!-- <img src="images/cavity.jpeg" alt="A picture of a cavity" class="image" /> -->
+
+      <ol>
+        <li>
+          <strong>Elektrische Felder:</strong> Eine Kavität ist ein hohler
+          Metallzylinder, in dem starke elektrische Felder erzeugt werden. Diese
+          Felder schwingen mit hoher Frequenz, typischerweise im
+          Radiofrequenzbereich.
+        </li>
+        <li>
+          <strong>Beschleunigung der Teilchen:</strong> Wenn die Teilchen durch
+          die Kavität hindurchfliegen, werden sie von den elektrischen Feldern
+          beschleunigt. Jedes Mal, wenn ein Teilchen die Kavität passiert,
+          erhält es einen Energieschub, der seine Geschwindigkeit erhöht.
+        </li>
+        <li>
+          <strong>Synchronisation:</strong> Die Frequenz der elektrischen Felder
+          in der Kavität ist genau auf die Geschwindigkeit der Teilchen
+          abgestimmt. Das bedeutet, dass die Teilchen immer dann einen Schub
+          bekommen, wenn sie die Kavität passieren, was ihre Beschleunigung
+          maximiert.
+        </li>
+        <li>
+          <strong>Mehrere Kavitäten:</strong> In einem großen
+          Teilchenbeschleuniger gibt es viele solcher Kavitäten, die
+          hintereinander angeordnet sind. Jede Kavität erhöht die Energie der
+          Teilchen weiter, bis sie die gewünschte Geschwindigkeit erreichen.
+        </li>
+        <li>
+          <strong>Präzise Kontrolle:</strong> Die Stärke und Frequenz der
+          elektrischen Felder in den Kavitäten können genau kontrolliert werden,
+          um sicherzustellen, dass die Teilchen den optimalen Energieschub
+          erhalten und auf ihrer vorgesehenen Bahn bleiben.
+        </li>
+      </ol>
+
+      <p>
+        Im Wesentlichen fungieren Kavitäten als die "Motoren" eines
+        Teilchenbeschleunigers, indem sie den Teilchen die nötige Energie
+        verleihen, um sie auf Geschwindigkeiten nahe der Lichtgeschwindigkeit zu
+        beschleunigen. Sie sind entscheidend für den Betrieb des Beschleunigers
+        und für die Durchführung erfolgreicher Experimente, indem sie den
+        Teilchen kinetische Energie verleihen.
+      </p>
+      <button class="closeButton">X</button>
+    </div>
+
+    <div class="text-box" id="text-box-torus-en" hidden>
+      <h2>Cavity</h2>
+      <p>
+        <em>Let's get faster:</em> A cavity in a particle accelerator is an
+        essential component used to accelerate the particles. You can imagine it
+        as a kind of motor that gives the particles a powerful boost as they
+        pass through the accelerator.
+      </p>
+
+      <!-- <img src="images/cavity.jpeg" alt="A picture of a cavity" class="image" /> -->
+
+      <p>Here is how it works:</p>
+
+      <ol>
+        <li>
+          <strong>Electric fields</strong>: A cavity is a hollow metal cylinder
+          in which strong electric fields are generated. These fields oscillate
+          at high frequencies, typically in the radio frequency range.
+        </li>
+        <li>
+          <strong>Acceleration of the particles</strong>: As the particles fly
+          through the cavity, they are accelerated by the electric fields. Each
+          time a particle passes through the cavity, it receives a boost of
+          energy, increasing its speed.
+        </li>
+        <li>
+          <strong>Synchronization</strong>: The frequency of the electric fields
+          in the cavity is precisely matched to the speed of the particles. This
+          means that the particles receive a boost whenever they pass through
+          the cavity, maximizing their acceleration.
+        </li>
+        <li>
+          <strong>Multiple cavities</strong>: In a large particle accelerator
+          there are many such cavities arranged one behind the other. Each
+          cavity further increases the energy of the particles until they reach
+          the desired speed.
+        </li>
+        <li>
+          <strong>Precise control</strong>: The strength and frequency of the
+          electric fields in the cavities can be precisely controlled to ensure
+          that the particles receive the optimal energy boost and stay on their
+          intended path.
+        </li>
+      </ol>
+
+      <p>
+        Essentially, cavities function as the "engines" of a particle
+        accelerator, providing the particles with the energy needed to propel
+        them to speeds approaching the speed of light. They are crucial for the
+        accelerator's operation and for conducting successful experiments by
+        imparting kinetic energy to the particles.
+      </p>
+      <button class="closeButton">X</button>
+    </div>
+
+    <div class="text-box" id="text-box-undulator-de" hidden>
+      <h2>Undulator</h2>
+
+      <p>
+        <em>Es werde Licht:</em> Im Undulator wird aus den Elektronen Licht, die
+        Röntgenstrahlung, erzeugt, darum auch der Name "Freie Elektronen Laser".
+        Die Elektronen werden nun nicht weiter benötigt und können entsorgt
+        werden. Man kann sich den Undulator als eine Anordnung von Magneten
+        vorstellen, die den Weg der beschleunigten Teilchen beeinflussen und sie
+        dazu bringen, hochenergetische Strahlung abzugeben.
+      </p>
+
+      <!--
+      <img
+        src="images/undulator.jpg"
+        alt="A picture of an undulator"
+        class="image"
+      />
+      -->
+
+      <p>Hier ist, wie es funktioniert:</p>
+
+      <ol>
+        <li>
+          <strong>Magnetstruktur:</strong> Der Undulator besteht aus einer Reihe
+          von sich abwechselnden Magnetpolen (Nord- und Südpol), die in
+          regelmäßigen Abständen entlang des Pfads der Teilchen angeordnet sind.
+          Diese Magnete erzeugen ein periodisches Magnetfeld.
+        </li>
+        <li>
+          <strong>Schwingende Bewegung:</strong> Wenn ein Elektronenstrahl durch
+          den Undulator hindurchfliegt, wird er durch das periodische Magnetfeld
+          in eine wellenförmige, schwingende Bewegung gezwungen. Die Elektronen
+          oszillieren dabei hin und her, während sie durch den Undulator
+          fliegen.
+        </li>
+        <li>
+          <strong>Erzeugung von Strahlung:</strong> Durch diese oszillierende
+          Bewegung emittieren die Elektronen elektromagnetische Strahlung. Diese
+          Strahlung addiert sich konstruktiv, da die Wellenlängen der
+          emittierten Strahlung mit der Periodizität des Magnetfelds abgestimmt
+          sind. Dies führt zu einer kohärenten und intensiven Strahlung.
+        </li>
+        <li>
+          <strong>Wellenlänge der Strahlung:</strong> Die erzeugte Strahlung
+          kann im Röntgenbereich oder im sichtbaren bis ultravioletten Bereich
+          des elektromagnetischen Spektrums liegen, je nach Design des
+          Undulators und der Energie der Elektronen. Die Wellenlänge der
+          Strahlung wird durch die Periodenlänge des Magnetfelds und die Energie
+          der Elektronen bestimmt.
+        </li>
+        <li>
+          <strong>Anwendungsbereiche:</strong> Im Gegensatz zu kommerziellen
+          Röntgenlasern ist die Strahlung der freien Elektronen Laser weitaus
+          brillanter und hat eine viel kleinere Wellenlänge, sodass damit
+          atomare Auflösung erreicht wird. Die Strahlung, die von Undulatoren
+          erzeugt wird, findet Anwendung in vielen Bereichen der Wissenschaft
+          und Technik: Untersuchungen von atomaren und molekularen Strukturen
+          helfen zum Beispiel bei der Materialforschung, wie zum Beispiel um
+          Solarzellen zu verbessern oder Ermüdung von Batterien. Beispiele für
+          biologische Anwendungen sind die Erforschung von Stoffwechselprozessen
+          oder die Entschlüsselung der Struktur und der Funktionsweise von
+          Krankheitserregern wie bei der Corona-Forschung. In der Physik können
+          Phänomene auf Quantenebene erklärt werden.
+        </li>
+      </ol>
+
+      <p>
+        Im Wesentlichen sind Undulatoren essenzielle Komponenten von solchen
+        Teilchenbeschleunigern, die als Lichtquellen verwendet werden. Sie
+        ermöglichen es, hochintensive und kohärente Strahlung zu erzeugen. Diese
+        Strahlung wird in einer Vielzahl von wissenschaftlichen und
+        technologischen Anwendungen genutzt, um tiefere Einblicke in die
+        Struktur und Dynamik von Materie zu gewinnen.
+      </p>
+
+      <button class="closeButton">X</button>
+    </div>
+
+    <div class="text-box" id="text-box-undulator-en" hidden>
+      <h2>Undulator</h2>
+
+      <p>
+        <em>Let there be light:</em> In the undulator, the electrons are used to
+        generate light, X-rays, hence the name 'free electron laser'. The
+        electrons are no longer needed and can be disposed of. You can imagine
+        the undulator as an arrangement of magnets that influence the path of
+        the accelerated particles and cause them to emit high-energy radiation.
+      </p>
+
+      <!--
+      <img
+        src="images/undulator.jpg"
+        alt="A picture of an undulator"
+        class="image"
+      />
+      -->
+
+      <p>Here's how it works:</p>
+
+      <ol>
+        <li>
+          <strong>Magnetic structure</strong>: The undulator consists of a
+          series of alternating magnetic poles (north and south poles) spaced at
+          regular intervals along the path of the particles. These magnets
+          generate a periodic magnetic field.
+        </li>
+        <li>
+          <strong>Oscillating motion</strong>: When an electron beam passes
+          through the undulator, it is forced into an undulating, oscillating
+          motion by the periodic magnetic field. The electrons oscillate back
+          and forth as they fly through the undulator.
+        </li>
+        <li>
+          <strong>Generation of radiation</strong>: This oscillating motion
+          causes the electrons to emit electromagnetic radiation. This radiation
+          adds up constructively, as the wavelengths of the emitted radiation
+          are synchronised with the periodicity of the magnetic field. This
+          results in coherent and intense radiation.
+        </li>
+        <li>
+          <strong>Wavelength of the radiation</strong>: The radiation generated
+          can be in the X-ray range or in the visible to ultraviolet range of
+          the electromagnetic spectrum, depending on the design of the undulator
+          and the energy of the electrons. The wavelength of the radiation is
+          determined by the period length of the magnetic field and the energy
+          of the electrons.
+        </li>
+        <li>
+          <strong>Application areas</strong>: In contrast to commercial X-ray
+          lasers, the radiation of free electron lasers is much more brilliant
+          and has a much smaller wavelength, so that atomic resolution can be
+          achieved. The radiation generated by undulators is used in many areas
+          of science and technology: investigations of atomic and molecular
+          structures, for example, help in materials research, such as improving
+          solar cells or battery fatigue. Examples of biological applications
+          include research into metabolic processes or deciphering the structure
+          and function of pathogens, such as in coronavirus research. In
+          physics, phenomena can be explained at quantum level.
+        </li>
+      </ol>
+
+      <p>
+        Essentially, undulators are indispensable components of particle
+        accelerators that are used as light sources. They make it possible to
+        generate high-intensity and coherent radiation. This radiation is used
+        in a variety of scientific and technological applications to gain deeper
+        insights into the structure and dynamics of matter.
+      </p>
+
+      <button class="closeButton">X</button>
+    </div>
+
+
+    <script type="module" src="main.js"></script>
+  </body>
+</html>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>ARES.js app</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="https://cdn.plot.ly/plotly-3.0.1.min.js"></script> <!-- 2D plotting -->
+    <script
+      id="MathJax-script"
+      type="text/javascript"
+      async
+      src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"
+    ></script>
+  </head>
+  <body style="background-color: white">
+    <!-- dimgrey -->
+    <!--
+    <header>
+		<h1 style="text-align: left; margin-left: 1em;">ARES model</h1> 
+		<p style="text-align: left; margin-left: 2em;">
+		</p>
+	</header>
+	-->
+    <main>
+      <div id="container3D"></div>
+    </main>
+
+    <div class="text-box" id="text-box-electronsource-de" hidden>
+      <h2>Gun</h2>
+      <p>
+        <em>Die Reise beginnt:</em> Die Teilchenstrahlkanone ist die erste und
+        wesentlichste Komponente eines Teilchenbeschleunigers und bildet den
+        Ausgangspunkt für den gesamten Beschleunigungsprozess. Sie erzeugt den
+        initialen Teilchenstrahl, liefert einen entscheidenden Energieschub und
+        bereitet den Teilchenstrahl für die weitere Beschleunigung durch
+        Hohlraumresonatoren und Magneten vor.
+      </p>
+
+      <!--
+      <img
+        src="images/gun.jpg"
+        alt="A picture of a particle gun"
+        class="image"
+      />
+      -->
+
+      <p>Hier ist, wie es funktioniert:</p>
+
+      <ol>
+        <li>
+          <strong>Erzeugung von Teilchen:</strong> Die Kanone erzeugt Teilchen
+          mithilfe des photoelektrischen Effekts. Zum Beispiel führt das
+          Bestrahlen einer Kathode – oft aus Materialien wie Kupfer oder
+          Cäsiumtellurid – mit Laserlicht zur Freisetzung von Elektronen.
+        </li>
+        <li>
+          <strong>Initiale Beschleunigung:</strong> Starke elektrische Felder
+          beschleunigen die Teilchen unmittelbar nach ihrer Erzeugung, verleihen
+          ihnen einen initialen Energieschub und bringen sie auf hohe
+          Geschwindigkeiten.
+        </li>
+        <li>
+          <strong>Ausrichtung und Bündelung:</strong> Die Kanone beschleunigt
+          nicht nur Teilchen, sondern formt sie auch zu einem kompakten, gut
+          ausgerichteten Strahl. Dieser Schritt ist entscheidend, um
+          sicherzustellen, dass die Teilchen effizient durch die nachfolgenden
+          Beschleunigerstufen reisen können.
+        </li>
+        <li>
+          <strong>Hohe Präzision:</strong> Die Kanone arbeitet mit hoher
+          Präzision. Der Zeitpunkt der Freisetzung der Teilchen und die Stärke
+          der elektrischen Felder werden sorgfältig gesteuert, um
+          sicherzustellen, dass die Teilchen mit der richtigen Geschwindigkeit
+          und Flugbahn starten.
+        </li>
+      </ol>
+
+      <p>
+        Im Wesentlichen dient die Teilchenstrahlkanone als grundlegender
+        Startmechanismus in der Beschleunigerphysik und ebnet den Teilchen den
+        Weg für bahnbrechende wissenschaftliche Entdeckungen.
+      </p>
+      <button class="closeButton">X</button>
+    </div>
+
+    <div class="text-box" id="text-box-electronsource-en" hidden>
+      <h2>Gun</h2>
+      <p>
+        <em>Let the journey begin:</em> The particle beam gun is the first and
+        most essential component of a particle accelerator, serving as the
+        starting point for the entire acceleration process. It generates the
+        initial particle beam, provides a crucial energy boost, and prepares the
+        particle beam for further acceleration through cavities and magnets.
+      </p>
+
+      <!--
+      <img
+        src="images/gun.jpg"
+        alt="A picture of a particle gun"
+        class="image"
+      />
+      -->
+
+      <p>Here is how it works:</p>
+
+      <ol>
+        <li>
+          <strong>Generation of particles:</strong> The gun produces particles
+          using the photoelectric effect. For example, shining laser light onto
+          a cathode—often made of materials like copper or cesium
+          telluride—releases electrons.
+        </li>
+        <li>
+          <strong>Initial acceleration:</strong> Strong electric fields
+          accelerate the particles immediately after their creation, giving them
+          an initial energy boost and bringing them to high speeds.
+        </li>
+        <li>
+          <strong>Alignment and bundling:</strong> The gun not only accelerates
+          particles but also directs them into a compact, well-aligned beam.
+          This step is vital for ensuring the particles can travel efficiently
+          through subsequent accelerator stages.
+        </li>
+        <li>
+          <strong>High precision:</strong> The gun operates with high precision.
+          The timing of particle release and the strength of the electric fields
+          are carefully controlled to ensure particles start with the correct
+          speed and trajectory.
+        </li>
+      </ol>
+
+      <p>
+        Essentially, the particle beam gun serves as the foundational launching
+        mechanism in accelerator physics, setting particles on their path for
+        groundbreaking scientific exploration.
+      </p>
+      <button class="closeButton">X</button>
+    </div>
+
+    <div class="text-box" id="text-box-quadcore-de" hidden>
+      <h2>Quadropol</h2>
+
+      <p>
+        <em>Alle zusammen bleiben:</em> Ein Quadrupolmagnet in einem
+        Teilchenbeschleuniger funktioniert wie eine spezielle Art von Linse für
+        Teilchen. Genau wie eine gewöhnliche Linse Licht auf einen Punkt
+        fokussiert, verwendet ein Quadrupolmagnet Magnetfelder, um Strahlen
+        geladener Teilchen, wie Protonen oder Elektronen, auf einen schmalen
+        Pfad zu fokussieren.
+      </p>
+
+      <!--
+      <img
+        src="images/quadro.jpeg"
+        alt="A picture of a quadropol magnet"
+        class="image"
+      />
+      -->
+
+      <p>Hier ist, wie es funktioniert:</p>
+
+      <ol>
+        <li>
+          <strong>Magnetfelder:</strong> Ein Quadrupolmagnet hat vier
+          Magnetpole, die in einem Quadrat angeordnet sind. Zwei dieser Pole
+          sind Nordpole und zwei sind Südpole, die sich abwechselnd um das
+          Quadrat herum befinden.
+        </li>
+        <li>
+          <strong>Fokussiereffekt:</strong> Wenn ein Teilchenstrahl durch den
+          Quadrupolmagneten hindurchgeht, drücken die Magnetfelder die Teilchen
+          von zwei Seiten zur Mitte hin, während sie sie von den anderen zwei
+          Seiten auseinanderziehen.
+          <em
+            >Hierdurch können die Teilchen in eine Richtung fokussiert werden,
+            es hat aber den unerwünschten Nebeneffekt, dass sie in der anderen
+            Richtung deffokussiert werden.</em
+          >
+          Durch sorgfältige Anordnung mehrerer Quadrupolmagneten können
+          Wissenschaftler die Teilchen dicht beieinander halten und auf dem
+          richtigen Weg.
+        </li>
+        <li>
+          <strong>Anpassung des Strahls:</strong> Indem die Stärke der
+          Magnetfelder verändert wird, können Wissenschaftler einstellen, wie
+          stark der Strahl fokussiert wird. Das ist entscheidend, um
+          sicherzustellen, dass die Teilchen in Experimenten präzise
+          kollidieren, was notwendig ist, um die grundlegenden Bestandteile der
+          Materie zu untersuchen.
+        </li>
+      </ol>
+
+      <p>
+        Im Wesentlichen helfen Quadrupolmagneten, den Teilchenstrahl
+        kontrolliert und präzise zu halten, was für die hochpräzisen Experimente
+        in Teilchenbeschleunigern unerlässlich ist.
+      </p>
+      <button class="closeButton">X</button>
+    </div>
+
+    <div class="text-box" id="text-box-quadcore-en" hidden>
+      <h2>Quadrupole</h2>
+
+      <p>
+        <em>Stay all together:</em> A quadrupole magnet in a particle
+        accelerator works like a special kind of lens for particles. Just like
+        an ordinary lens focuses light onto a point, a quadrupole magnet uses
+        magnetic fields to focus beams of charged particles, such as protons or
+        electrons, onto a narrow path.
+      </p>
+
+      <!--
+      <img
+        src="images/quadro.jpeg"
+        alt="A picture of a quadrupole magnet"
+        class="image"
+      />
+      -->
+
+      <p>Here's how it works:</p>
+
+      <ol>
+        <li>
+          <strong>Magnetic fields:</strong> A quadrupole magnet has four
+          magnetic poles arranged in a square. Two of these poles are north
+          poles and two are south poles, alternating around the square.
+        </li>
+        <li>
+          <strong>Focusing effect:</strong> When a beam of particles passes
+          through the quadrupole magnet, the magnetic fields push the particles
+          towards the centre from two sides while pulling them apart from the
+          other two sides.
+          <em
+            >This can focus the particles in one direction, but it has the
+            undesirable side effect of de-focussing them in the other
+            direction.</em
+          >
+          By carefully arranging multiple quadrupole magnets, scientists can
+          keep the particles close together and on the right path.
+        </li>
+        <li>
+          <strong>Adjusting the beam:</strong> By changing the strength of the
+          magnetic fields, scientists can adjust how strongly the beam is
+          focussed. This is crucial to ensure that particles collide precisely
+          in experiments, which is necessary to study the fundamental
+          constituents of matter.
+        </li>
+      </ol>
+
+      <p>
+        Essentially, quadrupole magnets help to keep the particle beam
+        controlled and precise, which is essential for the high-precision
+        experiments in particle accelerators.
+      </p>
+
+      <button class="closeButton">X</button>
+    </div>
+
+    <div class="text-box" id="text-box-beam-de" hidden>
+      <h2>Beam</h2>
+      <p>
+        <em>Der Elektronen-Zug:</em> Der Strahl in einem Teilchenbeschleuniger
+        besteht aus den eigentlich beschleunigten Teilchen und beschreibt deren
+        Trajektorie. Die Teilchen werden zum Beispiel am European pulisiert mit
+        10 Hz, geschossen. Dabei wird in jedem Puls ein Zug aus Teilchenpaketen,
+        sogenannten “Bunches” generiert.
+      </p>
+
+      <button class="closeButton">X</button>
+    </div>
+
+    <div class="text-box" id="text-box-beam-en" hidden>
+      <h2>Beam</h2>
+      <p>
+        <em>The electron train:</em> The beam in a particle accelerator consists
+        of the actual accelerated particles and describes their trajectory. The
+        particles are shot at the European, for example, pulsed at 10 Hz. In
+        each pulse, a train of particle packets, so-called 'bunches', is
+        generated.
+      </p>
+
+      <button class="closeButton">X</button>
+    </div>
+
+    <div class="text-box" id="text-box-steering-de" hidden>
+      <h2>Dipol</h2>
+
+      <p>
+        <em>Immer auf der Bahn bleiben:</em> Ein Dipolmagnet in einem
+        Teilchenbeschleuniger spielt eine entscheidende Rolle dabei, den Weg der
+        Teilchen zu lenken. Man kann ihn sich wie eine Art Lenkrad vorstellen,
+        das die Richtung der geladenen Teilchen steuert, während sie durch den
+        Beschleuniger rasen.
+      </p>
+
+      <!--
+      <img
+        src="images/steering.jpeg"
+        alt="A picture of a steering magnet"
+        class="image"
+      />
+      -->
+
+      <p>Hier ist, wie es funktioniert:</p>
+
+      <ol>
+        <li>
+          <strong>Magnetfelder</strong>: Ein Dipolmagnet hat zwei Pole – einen
+          Nordpol und einen Südpol. Diese Pole erzeugen ein gleichmäßiges
+          Magnetfeld zwischen sich.
+        </li>
+        <li>
+          <strong>Lenkung der Teilchen</strong>: Wenn ein Teilchenstrahl durch
+          den Dipolmagneten hindurchgeht, wirkt in den Magnetfeldern die
+          Lorentzkraft, die die geladenen Teilchen auf eine Kurve zwingt.
+        </li>
+        <li>
+          <strong>Anpassung der Stärke</strong>: Durch die Anpassung der Stärke
+          des Magnetfeldes können Wissenschaftler bestimmen, wie stark die
+          Teilchen abgelenkt werden. Dies ist besonders wichtig, um die Teilchen
+          auf ihrer vorgegebenen Bahn zu halten und präzise zu steuern.
+        </li>
+      </ol>
+
+      <p>
+        Im Wesentlichen sind Dipolmagnete die Schlüsselkomponenten, die den
+        Teilchenstrahl lenken und sicherstellen, dass die Teilchen den richtigen
+        Weg durch den Beschleuniger nehmen. Sie sind unerlässlich, um die
+        Teilchen auf der vorgesehenen Bahn zu halten und für die erfolgreichen
+        Experimente in Teilchenbeschleunigern zu sorgen.
+      </p>
+      <button class="closeButton">X</button>
+    </div>
+    <div class="text-box" id="text-box-steering-en" hidden>
+      <h2>Dipole</h2>
+
+      <p>
+        <em>Follow the path:</em> A dipole magnet in a particle accelerator
+        plays a crucial role in guiding the path of the particles. You can think
+        of it as a kind of steering wheel that controls the direction of the
+        charged particles as they race through the accelerator.
+      </p>
+
+      <img
+        src="images/steering.jpeg"
+        alt="A picture of a steering magnet"
+        class="image"
+      />
+
+      <p>Here is how it works:</p>
+
+      <ol>
+        <li>
+          <strong>Magnetic fields</strong>: A dipole magnet has two poles – a
+          north pole and a south pole. These poles create a uniform magnetic
+          field between them.
+        </li>
+        <li>
+          <strong>Control of the particles</strong>: When a particle beam passes
+          through the dipole magnet, the Lorentz force acts in the magnetic
+          fields, forcing the charged particles into a curve.
+        </li>
+        <li>
+          <strong>Adjusting the strength:</strong> By adjusting the strength of
+          the magnetic field, scientists can determine how much the particles
+          are deflected. This is particularly important in order to keep the
+          particles on their specified path and to control them precisely.
+        </li>
+      </ol>
+
+      <p>
+        Essentially, dipole magnets are the key components that direct the
+        particle beam and ensure that the particles take the correct path
+        through the accelerator. They are essential for keeping the particles on
+        the intended path and for successful experiments in particle
+        accelerators.
+      </p>
+      <button class="closeButton">X</button>
+    </div>
+
+    <div class="text-box" id="text-box-screen-de" hidden>
+      <h2>Screen</h2>
+
+      <p><em>Elektronen sichtbar machen:</em></p>
+      <p>
+        Ein Szintillationsschirm in einem Teilchenbeschleuniger ist ein
+        spezielles Instrument, das dazu verwendet wird, den Weg und die
+        Eigenschaften von Teilchenstrahlen sichtbar zu machen. Man kann ihn sich
+        wie einen Bildschirm vorstellen, der aufleuchtet, wenn Teilchen auf ihn
+        treffen, und so eine direkte Beobachtung mit Hilfe einer Kamera
+        ermöglicht.
+      </p>
+
+      <!--
+      <img
+        src="images/panel.png"
+        alt="A picture of the panel of a screen station"
+        class="image"
+      />
+      -->
+
+      <p>Hier ist, wie es funktioniert:</p>
+
+      <ol>
+        <li>
+          <strong>Interaktion mit Teilchen</strong>: Wenn Teilchen aus dem
+          Beschleuniger auf den Szintillationsschirm treffen, geben sie ihre
+          Energie an die Atome des Schirmmaterials ab. Diese Energieübertragung
+          führt dazu, dass die Atome des Materials in einen angeregten Zustand
+          versetzt werden.
+        </li>
+        <li>
+          <strong>Lichtemission</strong>: Die angeregten Atome kehren schnell in
+          ihren Grundzustand zurück und emittieren dabei Licht. Dieses
+          ausgesendete Licht ist sichtbar und kann direkt beobachtet oder mit
+          speziellen Kameras erfasst werden.
+        </li>
+        <li>
+          <strong>Visualisierung</strong>: Der Szintillationsschirm macht den
+          Weg und die Position der Teilchenstrahlen sichtbar. Das aufleuchtende
+          Licht zeigt, wo die Teilchen den Schirm getroffen haben. Dies
+          ermöglicht eine direkte Visualisierung von Position, Größe und Form
+          des Strahls, und hilft den Wissenschaftlern, den Strahlverlauf zu
+          überprüfen und zu optimieren.
+        </li>
+        <li>
+          <strong>Präzise Kontrolle</strong>: Durch die Beobachtung des
+          aufleuchtenden Musters auf dem Szintillationsschirm können
+          Wissenschaftler die Form, Intensität und Ausrichtung des
+          Teilchenstrahls präzise steuern. Dies ist entscheidend für
+          Experimente, die hohe Genauigkeit erfordern.
+        </li>
+      </ol>
+
+      <p>
+        Im Wesentlichen ist der Szintillationsschirm ein unverzichtbares
+        Werkzeug, um den unsichtbaren Teilchenstrahl sichtbar zu machen. Er
+        ermöglicht Wissenschaftlern eine direkte Beobachtung und Kontrolle des
+        Strahls, was für erfolgreiche Experimente und Anwendungen in der
+        Teilchenphysik und darüber hinaus unerlässlich ist.
+        <em>Destruktive Diagnostik.</em>
+      </p>
+
+      <button class="closeButton">X</button>
+    </div>
+
+    <div class="text-box" id="text-box-screen-en" hidden>
+      <h2>Screen</h2>
+
+      <p><em>Making electrons visible:</em></p>
+      <p>
+        A scintillation screen in a particle accelerator is a special instrument
+        that is used to visualise the path and properties of particle beams. You
+        can think of it as a screen that lights up when particles hit it,
+        allowing direct observation using a camera.
+      </p>
+
+      <!--
+      <img
+        src="images/panel.png"
+        alt="A picture of the panel of a screen station"
+        class="image"
+      />
+      -->
+
+      <p>Here's how it works:</p>
+
+      <ol>
+        <li>
+          <strong>Interaction with particles</strong>: When particles from the
+          accelerator hit the scintillation screen, they transfer their energy
+          to the atoms of the screen material. This energy transfer leads to the
+          atoms of the material being put into an excited state.
+        </li>
+        <li>
+          <strong>Light emission</strong>: The excited atoms quickly return to
+          their ground state, emitting light in the process. This emitted light
+          is visible and can be observed directly or captured with special
+          cameras.
+        </li>
+        <li>
+          <strong>Visualisation</strong>: The scintillation screen visualises
+          the path and position of the particle beams. The illuminated light
+          shows where the particles have hit the screen. This enables direct
+          visualisation of the position, size and shape of the beam, and helps
+          scientists to check and optimise the beam path.
+        </li>
+        <li>
+          <strong>Precise control</strong>: By observing the pattern that lights
+          up on the scintillation screen, scientists can precisely control the
+          shape, intensity and direction of the particle beam. This is crucial
+          for experiments that require high accuracy.
+        </li>
+      </ol>
+
+      <p>
+        Essentially, the scintillation screen is an indispensable tool for
+        visualising the invisible particle beam. It allows scientists to
+        directly observe and control the beam, which is essential for su
+
+        <button class="closeButton">X</button>
+      </p>
+    </div>
+
+    <div class="text-box" id="text-box-camera-de" hidden>
+      <h2>Kamera</h2>
+      <p>
+        Die Verwendung einer Kamera zur Betrachtung des Diagnosebildschirms
+        eines Beschleunigers ist ein praktischer Ansatz zur Fernüberwachung und
+        Erfassung von Echtzeitdaten, die auf der Steuer- oder
+        Diagnoseschnittstelle des Systems angezeigt werden.
+      </p>
+      <button class="closeButton">X</button>
+    </div>
+
+    <div class="text-box" id="text-box-camera-en" hidden>
+      <h2>Camera</h2>
+      <p>
+        Using a camera to view a diagnostic screen of an accelerator is a
+        practical approach for remotely monitoring and capturing real-time data
+        displayed on the control or diagnostic interface of the system.
+      </p>
+      <button class="closeButton">X</button>
+    </div>
+
+    <div class="text-box" id="text-box-torus-de" hidden>
+      <h2>Cavity</h2>
+      <p>
+        <em>Und noch schneller:</em> Eine Kavität in einem Teilchenbeschleuniger
+        ist ein wesentliches Bauteil, das dazu dient, die Teilchen zu
+        beschleunigen. Man kann sie sich wie eine Art Motor vorstellen, der den
+        Teilchen auf ihrem Weg durch den Beschleuniger einen kräftigen Schub
+        verleiht.
+      </p>
+
+      <p>Hier ist, wie es funktioniert:</p>
+
+      <!--<img src="images/cavity.jpeg" alt="A picture of a cavity" class="image" />-->
+
+      <ol>
+        <li>
+          <strong>Elektrische Felder:</strong> Eine Kavität ist ein hohler
+          Metallzylinder, in dem starke elektrische Felder erzeugt werden. Diese
+          Felder schwingen mit hoher Frequenz, typischerweise im
+          Radiofrequenzbereich.
+        </li>
+        <li>
+          <strong>Beschleunigung der Teilchen:</strong> Wenn die Teilchen durch
+          die Kavität hindurchfliegen, werden sie von den elektrischen Feldern
+          beschleunigt. Jedes Mal, wenn ein Teilchen die Kavität passiert,
+          erhält es einen Energieschub, der seine Geschwindigkeit erhöht.
+        </li>
+        <li>
+          <strong>Synchronisation:</strong> Die Frequenz der elektrischen Felder
+          in der Kavität ist genau auf die Geschwindigkeit der Teilchen
+          abgestimmt. Das bedeutet, dass die Teilchen immer dann einen Schub
+          bekommen, wenn sie die Kavität passieren, was ihre Beschleunigung
+          maximiert.
+        </li>
+        <li>
+          <strong>Mehrere Kavitäten:</strong> In einem großen
+          Teilchenbeschleuniger gibt es viele solcher Kavitäten, die
+          hintereinander angeordnet sind. Jede Kavität erhöht die Energie der
+          Teilchen weiter, bis sie die gewünschte Geschwindigkeit erreichen.
+        </li>
+        <li>
+          <strong>Präzise Kontrolle:</strong> Die Stärke und Frequenz der
+          elektrischen Felder in den Kavitäten können genau kontrolliert werden,
+          um sicherzustellen, dass die Teilchen den optimalen Energieschub
+          erhalten und auf ihrer vorgesehenen Bahn bleiben.
+        </li>
+      </ol>
+
+      <p>
+        Im Wesentlichen fungieren Kavitäten als die "Motoren" eines
+        Teilchenbeschleunigers, indem sie den Teilchen die nötige Energie
+        verleihen, um sie auf Geschwindigkeiten nahe der Lichtgeschwindigkeit zu
+        beschleunigen. Sie sind entscheidend für den Betrieb des Beschleunigers
+        und für die Durchführung erfolgreicher Experimente, indem sie den
+        Teilchen kinetische Energie verleihen.
+      </p>
+      <button class="closeButton">X</button>
+    </div>
+
+    <div class="text-box" id="text-box-torus-en" hidden>
+      <h2>Cavity</h2>
+      <p>
+        <em>Let's get faster:</em> A cavity in a particle accelerator is an
+        essential component used to accelerate the particles. You can imagine it
+        as a kind of motor that gives the particles a powerful boost as they
+        pass through the accelerator.
+      </p>
+
+      <!--<img src="images/cavity.jpeg" alt="A picture of a cavity" class="image" />-->
+
+      <p>Here is how it works:</p>
+
+      <ol>
+        <li>
+          <strong>Electric fields</strong>: A cavity is a hollow metal cylinder
+          in which strong electric fields are generated. These fields oscillate
+          at high frequencies, typically in the radio frequency range.
+        </li>
+        <li>
+          <strong>Acceleration of the particles</strong>: As the particles fly
+          through the cavity, they are accelerated by the electric fields. Each
+          time a particle passes through the cavity, it receives a boost of
+          energy, increasing its speed.
+        </li>
+        <li>
+          <strong>Synchronization</strong>: The frequency of the electric fields
+          in the cavity is precisely matched to the speed of the particles. This
+          means that the particles receive a boost whenever they pass through
+          the cavity, maximizing their acceleration.
+        </li>
+        <li>
+          <strong>Multiple cavities</strong>: In a large particle accelerator
+          there are many such cavities arranged one behind the other. Each
+          cavity further increases the energy of the particles until they reach
+          the desired speed.
+        </li>
+        <li>
+          <strong>Precise control</strong>: The strength and frequency of the
+          electric fields in the cavities can be precisely controlled to ensure
+          that the particles receive the optimal energy boost and stay on their
+          intended path.
+        </li>
+      </ol>
+
+      <p>
+        Essentially, cavities function as the "engines" of a particle
+        accelerator, providing the particles with the energy needed to propel
+        them to speeds approaching the speed of light. They are crucial for the
+        accelerator's operation and for conducting successful experiments by
+        imparting kinetic energy to the particles.
+      </p>
+      <button class="closeButton">X</button>
+    </div>
+
+    <div class="text-box" id="text-box-undulator-de" hidden>
+      <h2>Undulator</h2>
+
+      <p>
+        <em>Es werde Licht:</em> Im Undulator wird aus den Elektronen Licht, die
+        Röntgenstrahlung, erzeugt, darum auch der Name "Freie Elektronen Laser".
+        Die Elektronen werden nun nicht weiter benötigt und können entsorgt
+        werden. Man kann sich den Undulator als eine Anordnung von Magneten
+        vorstellen, die den Weg der beschleunigten Teilchen beeinflussen und sie
+        dazu bringen, hochenergetische Strahlung abzugeben.
+      </p>
+
+      <!--
+      <img
+        src="images/undulator.jpg"
+        alt="A picture of an undulator"
+        class="image"
+      />
+      -->
+
+      <p>Hier ist, wie es funktioniert:</p>
+
+      <ol>
+        <li>
+          <strong>Magnetstruktur:</strong> Der Undulator besteht aus einer Reihe
+          von sich abwechselnden Magnetpolen (Nord- und Südpol), die in
+          regelmäßigen Abständen entlang des Pfads der Teilchen angeordnet sind.
+          Diese Magnete erzeugen ein periodisches Magnetfeld.
+        </li>
+        <li>
+          <strong>Schwingende Bewegung:</strong> Wenn ein Elektronenstrahl durch
+          den Undulator hindurchfliegt, wird er durch das periodische Magnetfeld
+          in eine wellenförmige, schwingende Bewegung gezwungen. Die Elektronen
+          oszillieren dabei hin und her, während sie durch den Undulator
+          fliegen.
+        </li>
+        <li>
+          <strong>Erzeugung von Strahlung:</strong> Durch diese oszillierende
+          Bewegung emittieren die Elektronen elektromagnetische Strahlung. Diese
+          Strahlung addiert sich konstruktiv, da die Wellenlängen der
+          emittierten Strahlung mit der Periodizität des Magnetfelds abgestimmt
+          sind. Dies führt zu einer kohärenten und intensiven Strahlung.
+        </li>
+        <li>
+          <strong>Wellenlänge der Strahlung:</strong> Die erzeugte Strahlung
+          kann im Röntgenbereich oder im sichtbaren bis ultravioletten Bereich
+          des elektromagnetischen Spektrums liegen, je nach Design des
+          Undulators und der Energie der Elektronen. Die Wellenlänge der
+          Strahlung wird durch die Periodenlänge des Magnetfelds und die Energie
+          der Elektronen bestimmt.
+        </li>
+        <li>
+          <strong>Anwendungsbereiche:</strong> Im Gegensatz zu kommerziellen
+          Röntgenlasern ist die Strahlung der freien Elektronen Laser weitaus
+          brillanter und hat eine viel kleinere Wellenlänge, sodass damit
+          atomare Auflösung erreicht wird. Die Strahlung, die von Undulatoren
+          erzeugt wird, findet Anwendung in vielen Bereichen der Wissenschaft
+          und Technik: Untersuchungen von atomaren und molekularen Strukturen
+          helfen zum Beispiel bei der Materialforschung, wie zum Beispiel um
+          Solarzellen zu verbessern oder Ermüdung von Batterien. Beispiele für
+          biologische Anwendungen sind die Erforschung von Stoffwechselprozessen
+          oder die Entschlüsselung der Struktur und der Funktionsweise von
+          Krankheitserregern wie bei der Corona-Forschung. In der Physik können
+          Phänomene auf Quantenebene erklärt werden.
+        </li>
+      </ol>
+
+      <p>
+        Im Wesentlichen sind Undulatoren essenzielle Komponenten von solchen
+        Teilchenbeschleunigern, die als Lichtquellen verwendet werden. Sie
+        ermöglichen es, hochintensive und kohärente Strahlung zu erzeugen. Diese
+        Strahlung wird in einer Vielzahl von wissenschaftlichen und
+        technologischen Anwendungen genutzt, um tiefere Einblicke in die
+        Struktur und Dynamik von Materie zu gewinnen.
+      </p>
+
+      <button class="closeButton">X</button>
+    </div>
+
+    <div class="text-box" id="text-box-undulator-en" hidden>
+      <h2>Undulator</h2>
+
+      <p>
+        <em>Let there be light:</em> In the undulator, the electrons are used to
+        generate light, X-rays, hence the name 'free electron laser'. The
+        electrons are no longer needed and can be disposed of. You can imagine
+        the undulator as an arrangement of magnets that influence the path of
+        the accelerated particles and cause them to emit high-energy radiation.
+      </p>
+
+      <!--
+      <img
+        src="images/undulator.jpg"
+        alt="A picture of an undulator"
+        class="image"
+      />
+      -->
+
+      <p>Here's how it works:</p>
+
+      <ol>
+        <li>
+          <strong>Magnetic structure</strong>: The undulator consists of a
+          series of alternating magnetic poles (north and south poles) spaced at
+          regular intervals along the path of the particles. These magnets
+          generate a periodic magnetic field.
+        </li>
+        <li>
+          <strong>Oscillating motion</strong>: When an electron beam passes
+          through the undulator, it is forced into an undulating, oscillating
+          motion by the periodic magnetic field. The electrons oscillate back
+          and forth as they fly through the undulator.
+        </li>
+        <li>
+          <strong>Generation of radiation</strong>: This oscillating motion
+          causes the electrons to emit electromagnetic radiation. This radiation
+          adds up constructively, as the wavelengths of the emitted radiation
+          are synchronised with the periodicity of the magnetic field. This
+          results in coherent and intense radiation.
+        </li>
+        <li>
+          <strong>Wavelength of the radiation</strong>: The radiation generated
+          can be in the X-ray range or in the visible to ultraviolet range of
+          the electromagnetic spectrum, depending on the design of the undulator
+          and the energy of the electrons. The wavelength of the radiation is
+          determined by the period length of the magnetic field and the energy
+          of the electrons.
+        </li>
+        <li>
+          <strong>Application areas</strong>: In contrast to commercial X-ray
+          lasers, the radiation of free electron lasers is much more brilliant
+          and has a much smaller wavelength, so that atomic resolution can be
+          achieved. The radiation generated by undulators is used in many areas
+          of science and technology: investigations of atomic and molecular
+          structures, for example, help in materials research, such as improving
+          solar cells or battery fatigue. Examples of biological applications
+          include research into metabolic processes or deciphering the structure
+          and function of pathogens, such as in coronavirus research. In
+          physics, phenomena can be explained at quantum level.
+        </li>
+      </ol>
+
+      <p>
+        Essentially, undulators are indispensable components of particle
+        accelerators that are used as light sources. They make it possible to
+        generate high-intensity and coherent radiation. This radiation is used
+        in a variety of scientific and technological applications to gain deeper
+        insights into the structure and dynamics of matter.
+      </p>
+
+      <button class="closeButton">X</button>
+    </div>
+
+    <script type="module" src="main.js"></script>
+  </body>
+</html>
