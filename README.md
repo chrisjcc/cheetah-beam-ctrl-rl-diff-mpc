@@ -19,11 +19,13 @@ This work incorporates and builds on ideas from:
     primaryClass = {cs.RO},
     url          = {https://arxiv.org/abs/2306.09852}
 }
+```
 
 ### 📘 Cheetah Framework
 This project uses the Cheetah differentiable simulation framework for accelerator lattice modeling. If you use this work, please cite the following publications as recommended by the Cheetah authors:
 
-### @article{kaiser2024cheetah,
+```bibtex
+@article{kaiser2024cheetah,
     title        = {Bridging the gap between machine learning and particle accelerator physics with high-speed, differentiable simulations},
     author       = {Kaiser, Jan and Xu, Chenran and Eichler, Annika and Santamaria Garcia, Andrea},
     year         = 2024,
@@ -44,6 +46,7 @@ This project uses the Cheetah differentiable simulation framework for accelerato
     year         = 2022,
     booktitle    = {Proceedings of the 13th International Particle Accelerator Conference}
 }
+```
 
 ### License
 © 2025 Christian Contreras-Campana. All rights reserved.
