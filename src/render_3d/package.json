@@ -1,0 +1,25 @@
+{
+  "name": "beam_3d_visualizer",
+  "type": "module",
+  "dependencies": {
+    "express": "^4.21.2",
+    "plotly.js-dist": "^3.0.1",
+    "puppeteer": "^24.4.0",
+    "three": "^0.163.0"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "vite": "^6.2.0",
+    "vite-plugin-copy": "^0.1.6",
+    "vite-plugin-image-optimizer": "^1.1.8",
+    "vite-plugin-static-copy": "^2.3.0"
+  },
+  "scripts": {
+    "start-dev": "concurrently \"npm run start-python\" \"npm run start-js\"",
+    "start-python": "python ../runner.py",
+    "start-js": "npx vite",
+    "build": "vite build",
+    "start-prod": "concurrently \"npm run start-python\" \"node server.js\"",
+    "start-prod-serve": "concurrently \"npm run start-python\" \"serve dist\""
+  }
+}

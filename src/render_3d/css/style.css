@@ -1,0 +1,100 @@
+body {
+  margin: 0;
+  font-family: "Montserrat", sans-serif;
+  background-color: #000;
+}
+
+header {
+  margin-top: 3em;
+  text-align: center;
+  color: black;
+  z-index: 5
+}
+
+header h1 {
+  font-size: 2em;
+  font-weight: 900;
+}
+
+#container3D canvas {
+  width: 100vw !important;
+  height: 100vh !important;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0
+}
+
+.text-box {
+  /* Basic styling */
+  position: absolute; /* Make it absolute for positioning */
+  --text-box-vertical-margin: 10px;
+  top: var(--text-box-vertical-margin); /* Adjust top position as needed */
+  right: var(--text-box-vertical-margin); /* Position 10px from the right edge */  --text-box-vertical-padding: 10px;
+  padding: var(--text-box-vertical-padding) 15px; /* Padding for content and border */
+  max-height: calc(100vh - 2 * var(--text-box-vertical-padding) - 2 * var(--text-box-vertical-margin));
+  min-width: 400px;
+  width: 20%; /* Set width to 20% */
+
+  border: 1px solid #ccc; /* Border color and thickness */
+  border-radius: 4px; /* Rounded corners */
+  font-size: 16px; /* Font size for text */
+  background-color: #fff; /* Background color */
+  color: #333; /* Text color */
+  overflow-y: auto;
+  opacity: 0.8;
+
+  /* Optional: Focus styling */
+  &:focus {
+    outline: none; /* Remove default browser outline */
+    border-color: #999; /* Change border color on focus */
+  }
+
+  /* Optional: Placeholder styling */
+  &::placeholder {
+    color: #aaa; /* Placeholder text color */
+  }
+}
+
+@media (max-width: 768px) {
+  .text-box {
+    position: fixed;  /* Fix the textbox to viewport on mobile */
+    width: 96%;
+    height: 50%;
+    top: 45%;
+    bottom: 10px;
+    left: 0%;
+    right: 0%;
+  }
+}
+
+.closeButton {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background-color: transparent; /* Make background invisible */
+  border: none; /* Remove border */
+  cursor: pointer; /* Change cursor to indicate clickability */
+}
+
+.image {
+  width: 390px;
+  object-fit: cover;
+  height: 200px;
+  display: block;
+  margin: 0 auto; /* Center the image */
+}
+
+#toggle-model {
+	position: fixed;
+	bottom: 10px;
+	left: 10px;
+	z-index: 1;
+}
+
+#toggle-invis {
+  position: fixed;
+  bottom: 100px;
+  left: 10px;
+  z-index: 1;
+}
