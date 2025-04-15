@@ -100,8 +100,8 @@ def main():
 
     # Setup RL training algorithm
     model = PPO(
-        "MlpPolicy",
-        #MPCPolicy,  # Use the custom policy
+        #"MlpPolicy",
+        MPCPolicy,  # Use the custom policy
         env,
         learning_rate=config["learning_rate"],
         n_steps=config["n_steps"],
@@ -125,7 +125,7 @@ def main():
             }[config["net_arch"]],
             "ortho_init": config["ortho_init"],
             "log_std_init": config["log_std_init"],
-            #"env": env,
+            "env": env,
         },
         device=config["sb3_device"],
         tensorboard_log=f"log/{config['run_name']}",

@@ -50,6 +50,9 @@ class MPCPolicy(ActorCriticPolicy):
 
         # Environment and MPC setup
         self.env = env
+        self.horizon = horizon
+        self.lqr_iter = lqr_iter
+        self.R_scale = R_scale
 
         self.mpc_controller = MPCController(self.env, horizon, lqr_iter, R_scale)
 

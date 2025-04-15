@@ -275,10 +275,10 @@ class CheetahEnv(gym.Env, TransverseTuningBaseBackend):
         )
 
         # Create a beam dynamics model
-        #self.dynamics = BeamDynamics(
-        #    segment=self.segment,
-        #    incoming_parameters=self.incoming_params,
-        #)
+        self.dynamics = BeamDynamics(
+            segment=self.segment,
+            incoming_parameters=self.incoming_params,
+        )
 
         # Set up misalignments
         if "misalignments" in preprocessed_options:
