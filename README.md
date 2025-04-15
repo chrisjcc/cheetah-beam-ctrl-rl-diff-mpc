@@ -1,16 +1,29 @@
 # cheetah-beam-ctrl-rl-diff-mpc
 Reinforcement learning-based beam control using differentiable MPC and Cheetah accelerator simulation.
 
-## Citation
+## Acknowledged and Cited Work
 
-If you use this repository or its methodology in your work, please cite the following sources:
+This project builds on the following frameworks and methods. If you use this repository, please ensure you cite the original authors as specified below.
 
-### 📘 Cheetah Framework
+### 🧠 Actor-Critic MPC with Differentiable Optimization
 
-Please cite both of the following papers:
+This work incorporates and builds on ideas from:
 
 ```bibtex
-@article{kaiser2024cheetah,
+@misc{romero2025actorcriticmodelpredictivecontrol,
+    title        = {Actor-Critic Model Predictive Control: Differentiable Optimization meets Reinforcement Learning}, 
+    author       = {Angel Romero and Elie Aljalbout and Yunlong Song and Davide Scaramuzza},
+    year         = 2025,
+    eprint       = {2306.09852},
+    archivePrefix= {arXiv},
+    primaryClass = {cs.RO},
+    url          = {https://arxiv.org/abs/2306.09852}
+}
+
+### 📘 Cheetah Framework
+This project uses the Cheetah differentiable simulation framework for accelerator lattice modeling. If you use this work, please cite the following publications as recommended by the Cheetah authors:
+
+### @article{kaiser2024cheetah,
     title        = {Bridging the gap between machine learning and particle accelerator physics with high-speed, differentiable simulations},
     author       = {Kaiser, Jan and Xu, Chenran and Eichler, Annika and Santamaria Garcia, Andrea},
     year         = 2024,
@@ -31,16 +44,10 @@ Please cite both of the following papers:
     year         = 2022,
     booktitle    = {Proceedings of the 13th International Particle Accelerator Conference}
 }
-📙 Actor-Critic MPC with Differentiable Optimization
-bibtex
-Copy
-Edit
-@misc{romero2025actorcriticmodelpredictivecontrol,
-    title        = {Actor-Critic Model Predictive Control: Differentiable Optimization meets Reinforcement Learning}, 
-    author       = {Angel Romero and Elie Aljalbout and Yunlong Song and Davide Scaramuzza},
-    year         = 2025,
-    eprint       = {2306.09852},
-    archivePrefix= {arXiv},
-    primaryClass = {cs.RO},
-    url          = {https://arxiv.org/abs/2306.09852}
-}
+
+### License
+© 2025 Christian Contreras-Campana. All rights reserved.
+
+This repository is not licensed for public or commercial use.
+Any form of use, reproduction, or distribution requires explicit written permission from the author(s).
+Please contact chrisjcc.physics@gmail.com for licensing inquiries.
