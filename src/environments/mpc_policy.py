@@ -10,6 +10,7 @@ from stable_baselines3.common.policies import ActorCriticPolicy
 # Import the MPC solver components
 from src.environments.mpc_controller import MPCController
 
+import torch
 
 class MPCPolicy(ActorCriticPolicy):
     """
@@ -25,9 +26,9 @@ class MPCPolicy(ActorCriticPolicy):
         env=None,
         state_dim=4,
         action_dim=5,
-        horizon=5,
-        lqr_iter=500,
-        R_scale=0.01,
+        horizon=15,  # typical range: 10–20 to consider longer-term effects.
+        lqr_iter=25, # typical range: 5–50 iterations
+        R_scale=0.5, # 0.1–1.0 to penalize control effort more, encouraging smoother actions. Start with 0.1 and observe if the cost varies across iterations.
         target_state_fn: Optional[Callable[[torch.Tensor], torch.Tensor]] = None,
         net_arch: Optional[List[Union[int, Dict[str, List[int]]]]] = None,
         activation_fn: Type[nn.Module] = nn.Tanh,
@@ -62,7 +63,7 @@ class MPCPolicy(ActorCriticPolicy):
         self.target_state_fn = (
             target_state_fn
             if target_state_fn is not None
-            else lambda x: x[:, state_dim: state_dim * 2]
+            else lambda x: x[:, -self.state_dim:]
         )
 
     def _build_mlp_extractor(self) -> None:
@@ -93,9 +94,9 @@ class MPCPolicy(ActorCriticPolicy):
 
         # Extract current and target states
         current_state = obs[:, : self.state_dim].to(torch.float32)
-        target_state = self.target_state_fn(obs).to(torch.float32)
+        target_state = self.target_state_fn(obs).to(torch.float32) # TODO: NOT USED!
         current_state.requires_grad_(True)
-        target_state.requires_grad_(True)
+        target_state.requires_grad_(True) # TODO: NOT USED!
 
         # Get cost parameters distribution from actor
         dist = self._get_action_dist_from_latent(latent_pi)
@@ -106,9 +107,14 @@ class MPCPolicy(ActorCriticPolicy):
         p = cost_params[:, self.combined_dim:]
 
         # Map cost parameters to control actions via MPC
-        action = self.mpc_controller.get_action_from_cost_params(
-            current_state, target_state, q_diag, p
-        )
+        #action = self.mpc_controller.get_action_from_cost_params(
+        #    current_state, q_diag, p
+        #)
+        action = torch.tensor([72.0/2, 72.0/2, 6.1782e-3/2, 72.0/2, 6.1782e-3/2], dtype=torch.float32, requires_grad=True).detach()
+
+
+        #print("q_diag grad norm:", q_diag.grad.norm() if q_diag.grad is not None else 0)
+        #print("p grad norm:", p.grad.norm() if p.grad is not None else 0)
 
         # Get value estimate from critic
         values = self.value_net(latent_vf)
@@ -128,7 +134,7 @@ class MPCPolicy(ActorCriticPolicy):
 
         # Extract current and target states
         current_state = obs[:, : self.state_dim].to(torch.float32)
-        target_state = self.target_state_fn(obs).to(torch.float32)
+        target_state = self.target_state_fn(obs).to(torch.float32)  # TODO: NOT USED!
 
         # Get predicted cost parameters from actor
         dist = self._get_action_dist_from_latent(latent_pi)
@@ -139,12 +145,13 @@ class MPCPolicy(ActorCriticPolicy):
         q_diag = torch.exp(predicted_cost_params[:, : self.combined_dim])
         p = predicted_cost_params[:, self.combined_dim:]
 
-        predicted_actions = self.mpc_controller.get_action_from_cost_params(
-            current_state, target_state, q_diag, p
-        )
-        predicted_actions = torch.tensor(
-            predicted_actions, dtype=torch.float32, device=actions.device
-        )
+        #predicted_actions = self.mpc_controller.get_action_from_cost_params(
+        #    current_state, q_diag, p
+        #)
+        predicted_actions = torch.tensor([72.0/2, 72.0/2, 6.1782e-3/2, 72.0/2, 6.1782e-3/2], dtype=torch.float32, device=actions.device)
+        #predicted_actions = torch.tensor(
+        #    predicted_actions, dtype=torch.float32, device=actions.device
+        #)
 
         # Simplified log probability: Gaussian approximation around predicted control actions
         action_var = torch.ones_like(actions) * 0.1  # Fixed variance
