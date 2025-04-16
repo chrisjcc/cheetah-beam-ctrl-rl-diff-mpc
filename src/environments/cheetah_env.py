@@ -1,4 +1,5 @@
 from typing import Any, Dict, Literal, Optional, Tuple, Union
+from collections import OrderedDict
 
 import cheetah
 import cv2
@@ -134,7 +135,7 @@ class CheetahEnv(gym.Env, TransverseTuningBaseBackend):
             )
 
         # Create observation space
-        self.observation_space = spaces.Dict(
+        self.observation_space = spaces.Dict(OrderedDict(
             {
                 "beam": spaces.Box(
                     low=np.array([-np.inf, 0, -np.inf, 0], dtype=np.float32),
@@ -146,7 +147,7 @@ class CheetahEnv(gym.Env, TransverseTuningBaseBackend):
                     high=np.array([2e-3, 2e-3, 2e-3, 2e-3], dtype=np.float32),
                 ),
             }
-        )
+        ))
 
         # Create action space
         if self.action_mode == "direct":
