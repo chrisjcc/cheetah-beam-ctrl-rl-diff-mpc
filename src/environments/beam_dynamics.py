@@ -12,7 +12,11 @@ class BeamDynamics(nn.Module):
         incoming_parameters,
     ):
         super().__init__()
-        self.segment = copy.deepcopy(segment)
+
+        #self.segment = copy.deepcopy(segment)
+        # Assuming `segment` is of type nn.Module
+        self.segment = type(segment)()  # Creates a blank model of the same class
+        self.segment.load_state_dict(segment.state_dict(), strict=False) # Injects those values into the new model
 
         # Store incoming_parameters as a Parameter to ensure it stays in the graph
         self.incoming_params = copy.deepcopy(incoming_parameters)
