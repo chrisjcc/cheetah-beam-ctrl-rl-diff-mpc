@@ -56,7 +56,7 @@ def main():
     "ent_coef": 0.0,
     "n_epochs": 10,
     "gae_lambda": 0.95,
-    "clip_range": 0.2,
+    "clip_range": 0.2, # Try: 0.1 to make updates more conservative.
     "clip_range_vf": None,
     "vf_coef": 0.5,
     "max_grad_norm": 0.5,
