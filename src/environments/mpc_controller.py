@@ -63,10 +63,12 @@ class MPCController(gym.Wrapper):
 
         return obs, info
 
-    def get_action_from_cost_params(self, state, target, q_diag, p):
+    def get_action_from_cost_params(self, state, q_diag, p):
         batch_size = state.shape[0]
 
-        Q = torch.diag_embed(q_diag)  # [batch_size, 9, 9]
+        # Q is a diagonal matrix penalizing the combined state and control vector [x; u],
+        # where x is the state (4D) and u is the control (5D).
+        Q = torch.diag_embed(q_diag)  # [batch_size, 9, 9], diagonal matrix
 
         # Repeat for horizon (assuming same cost per step)
         Q_running = Q.unsqueeze(0).repeat(self.horizon, 1, 1, 1)
@@ -81,6 +83,7 @@ class MPCController(gym.Wrapper):
         c = torch.cat([p_running, p_terminal], dim=0)
 
         # Construct cost for QuadCost, running cost for [s; u]
+        # The cost is repeated over the horizon and includes a terminal cost
         cost = QuadCost(C, c)
 
         # Control bounds
@@ -108,6 +111,8 @@ class MPCController(gym.Wrapper):
             grad_method=GradMethods.AUTO_DIFF,
             verbose=1,  # Debug MPC internals
             backprop=True,
+            delta_u=0.1,
+            # u_init: The initial control sequence, useful for warm-starting: [T, n_batch, n_ctrl]
         )
 
         # Create dynamics here instead of fetching it
@@ -118,5 +123,6 @@ class MPCController(gym.Wrapper):
 
         # Detach first action for environment stepping
         action = u_lqr[0, 0].detach()
+        print("Action:", action, "u_lqr:", u_lqr)
 
         return action
