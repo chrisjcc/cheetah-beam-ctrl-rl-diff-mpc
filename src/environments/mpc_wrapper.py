@@ -13,8 +13,7 @@ class MPCWrapper(Wrapper):
 
         # Store the last observation to access the current state
         self.last_obs = None
-
-        self.state_dim = 4  # TODO: Generalize!!!
+        self.state_dim = env.unwrapped.observation_space["beam"].shape[0] # [x, y, x_sigma, y_sigma]
 
     def step(self, action):
         """

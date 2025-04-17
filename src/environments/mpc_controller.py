@@ -125,14 +125,12 @@ class MPCController:
 
         # Create dynamics here instead of fetching it
         dynamics = self.env.unwrapped.dynamics
-        #dynamics = self.env.dynamics
 
-        #with torch.enable_grad():  # Force gradient tracking
-        #    x_lqr, u_lqr, _ = mpc(state, cost, dynamics)
+        with torch.enable_grad():  # Force gradient tracking
+            x_lqr, u_lqr, _ = mpc(state, cost, dynamics)
 
         # Detach first action for environment stepping
-        #action = u_lqr[0, 0].detach()
-        #print("Action:", action, "u_lqr:", u_lqr)
-        action = torch.tensor([72.0/2, 72.0/2, 6.1782e-3/2, 72.0/2, 6.1782e-3/2], dtype=torch.float32, requires_grad=True).detach()
+        action = u_lqr[0, 0].detach()
+        print("Action:", action, "u_lqr:", u_lqr)
 
         return action
