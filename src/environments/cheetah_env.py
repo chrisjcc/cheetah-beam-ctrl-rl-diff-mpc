@@ -395,17 +395,6 @@ class CheetahEnv(gym.Env, TransverseTuningBaseBackend):
 
     def get_magnets(self) -> np.ndarray:
         """Get current magnet settings."""
-        # return np.array(
-        #    [
-        #        self.segment.AREAMQZM1.k1.detach().cpu().numpy(),
-        #        self.segment.AREAMQZM2.k1.detach().cpu().numpy(),
-        #        self.segment.AREAMCVM1.angle.detach().cpu().numpy(),
-        #        self.segment.AREAMQZM3.k1.detach().cpu().numpy(),
-        #        self.segment.AREAMCHM1.angle.detach().cpu().numpy(),
-        #    ],
-        #    dtype=np.float32
-        # )
-        # torch.tensor([])
         torch_tensor = torch.stack(
             [
                 self.segment.AREAMQZM1.k1,

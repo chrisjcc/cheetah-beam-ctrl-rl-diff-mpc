@@ -44,9 +44,13 @@ class MPCController:
         self.R_scale = R_scale
 
         # Action bounds as tensors
-        self.u_lower = torch.tensor(env.unwrapped.action_space.low, dtype=torch.float32)
+        self.u_lower = torch.tensor(
+            env.unwrapped.action_space.low,
+            dtype=torch.float32
+        )
         self.u_upper = torch.tensor(
-            env.unwrapped.action_space.high, dtype=torch.float32
+            env.unwrapped.action_space.high,
+            dtype=torch.float32
         )
 
         # Control cost matrix R (assuming diagonal as in the proposed version)
@@ -85,8 +89,10 @@ class MPCController:
 
         # Linear terms
         p_running = p.unsqueeze(0).repeat(self.horizon, 1, 1)  # [horizon, 1, 9]
+
         # Terminal cost (using same as running cost for simplicity)
         p_terminal = p.unsqueeze(0)  # [1, 1, 9]
+
         # Combine into cost tensors for QuadCost - stack them properly
         c = torch.cat([p_running, p_terminal], dim=0)  # [horizon + 1, 1, 9]
 
@@ -120,7 +126,6 @@ class MPCController:
             verbose=1,  # Debug MPC internals
             backprop=True,
             delta_u=0.1,
-            # u_init: The initial control sequence, useful for warm-starting: [T, n_batch, n_ctrl]
         )
 
         # Create dynamics here instead of fetching it
@@ -131,6 +136,5 @@ class MPCController:
 
         # Detach first action for environment stepping
         action = u_lqr[0, 0].detach()
-        print("Action:", action, "u_lqr:", u_lqr)
 
         return action

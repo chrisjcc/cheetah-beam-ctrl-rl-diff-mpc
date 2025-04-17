@@ -24,8 +24,6 @@ class MPCPolicy(ActorCriticPolicy):
         action_space: spaces.Box,  # 18D
         lr_schedule: Callable[[float], float],
         env=None,
-        state_dim=4,  # TODO: IS IT NEEDED HERE??
-        action_dim=5, # TODO: IS IT NEEDED HERE??
         horizon=15,  # typical range: 10–20 to consider longer-term effects
         lqr_iter=25, # typical range: 5–50 iterations
         R_scale=0.5, # 0.1–1.0 to penalize control effort more, encouraging smoother actions
@@ -45,8 +43,8 @@ class MPCPolicy(ActorCriticPolicy):
         self.env = env
 
         # Redefine action_space as cost parameters (18D for Q diagonal + p)
-        self.state_dim = state_dim  # Use passed state_dim
-        self.action_dim = action_dim  # Use passed action_dim
+        self.state_dim = self.env.unwrapped.observation_space["beam"].shape[0]
+        self.action_dim = self.env.unwrapped.action_space.shape[0]
         self.combined_dim = self.state_dim + self.action_dim
 
         # MPC setup
