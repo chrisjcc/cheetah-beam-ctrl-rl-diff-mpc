@@ -4,7 +4,7 @@ from gymnasium.spaces import Dict
 from mpc.mpc import MPC, GradMethods, QuadCost
 
 
-class MPCController(gym.Wrapper):
+class MPCController:
     """
     Model Predictive Control (MPC) based controller for beam control.
     This class encapsulates the MPC algorithm logic, separating it from the environment.
@@ -54,39 +54,47 @@ class MPCController(gym.Wrapper):
             self.action_dim, dtype=torch.float32
         )  # Control cost (n_ctrl)
 
-    def reset(self, **kwargs):
-        """
-        Explicitly initialize the internal BeamDynamics object and segment parameters.
-        Should be called after env.reset() from an external handler.
-        """
-        obs, info = self.env.unwrapped.reset(**kwargs)
-
-        return obs, info
-
     def get_action_from_cost_params(self, state, q_diag, p):
-        batch_size = state.shape[0]
+        # Add batch dimension if missing
+        if state.dim() == 1:
+            state = state.unsqueeze(0)  # [1, state_dim], e.g., [1, 4]
+        if q_diag.dim() == 1:
+            q_diag = q_diag.unsqueeze(0)  # [1, 9]
+        if p.dim() == 1:
+            p = p.unsqueeze(0)  # [1, 9]
 
+        batch_size = state.shape[0]  # Should be 1 for single environment
+
+        # Quadratic terms
         # Q is a diagonal matrix penalizing the combined state and control vector [x; u],
         # where x is the state (4D) and u is the control (5D).
-        Q = torch.diag_embed(q_diag)  # [batch_size, 9, 9], diagonal matrix
+        # Q as a diagonal matrix: [batch_size, 9, 9]
+        Q = torch.diag_embed(q_diag)  # [1, 9, 9] for batch_size=1
 
         # Repeat for horizon (assuming same cost per step)
-        Q_running = Q.unsqueeze(0).repeat(self.horizon, 1, 1, 1)
-        p_running = p.unsqueeze(0).repeat(self.horizon, 1, 1)
+        # Running cost: [horizon, batch_size, 9, 9]
+        Q_running = Q.unsqueeze(0).repeat(self.horizon, 1, 1, 1)  # [horizon, 1, 9, 9]
 
         # Terminal cost (using same as running cost for simplicity)
-        Q_terminal = Q.unsqueeze(0)
-        p_terminal = p.unsqueeze(0)
+        # Terminal cost: [1, batch_size, 9, 9]
+        Q_terminal = Q.unsqueeze(0)  # [1, 1, 9, 9]
 
         # Combine into cost tensors for QuadCost - stack them properly
-        C = torch.cat([Q_running, Q_terminal], dim=0)
-        c = torch.cat([p_running, p_terminal], dim=0)
+        # Combine: [horizon + 1, batch_size, 9, 9]
+        C = torch.cat([Q_running, Q_terminal], dim=0)  # [horizon + 1, 1, 9, 9]
+
+        # Linear terms
+        p_running = p.unsqueeze(0).repeat(self.horizon, 1, 1)  # [horizon, 1, 9]
+        # Terminal cost (using same as running cost for simplicity)
+        p_terminal = p.unsqueeze(0)  # [1, 1, 9]
+        # Combine into cost tensors for QuadCost - stack them properly
+        c = torch.cat([p_running, p_terminal], dim=0)  # [horizon + 1, 1, 9]
 
         # Construct cost for QuadCost, running cost for [s; u]
         # The cost is repeated over the horizon and includes a terminal cost
         cost = QuadCost(C, c)
 
-        # Control bounds
+        # Control bounds: [horizon, batch_size, action_dim]
         u_lower = (
             self.u_lower.unsqueeze(0)
             .unsqueeze(0)
@@ -117,12 +125,14 @@ class MPCController(gym.Wrapper):
 
         # Create dynamics here instead of fetching it
         dynamics = self.env.unwrapped.dynamics
+        #dynamics = self.env.dynamics
 
-        with torch.enable_grad():  # Force gradient tracking
-            x_lqr, u_lqr, _ = mpc(state, cost, dynamics)
+        #with torch.enable_grad():  # Force gradient tracking
+        #    x_lqr, u_lqr, _ = mpc(state, cost, dynamics)
 
         # Detach first action for environment stepping
-        action = u_lqr[0, 0].detach()
-        print("Action:", action, "u_lqr:", u_lqr)
+        #action = u_lqr[0, 0].detach()
+        #print("Action:", action, "u_lqr:", u_lqr)
+        action = torch.tensor([72.0/2, 72.0/2, 6.1782e-3/2, 72.0/2, 6.1782e-3/2], dtype=torch.float32, requires_grad=True).detach()
 
         return action

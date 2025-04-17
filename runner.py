@@ -127,6 +127,8 @@ def main():
             "ortho_init": config["ortho_init"],
             "log_std_init": config["log_std_init"],
             "env": env,
+            "state_dim": 4, # Pass in the value 4, not the length of the observation space, 13, from self._get_obs()!
+            "action_dim": 5,
         },
         device=config["sb3_device"],
         tensorboard_log=f"log/{config['run_name']}",
