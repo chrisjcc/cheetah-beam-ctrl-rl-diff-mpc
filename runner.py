@@ -51,7 +51,7 @@ def main():
     "learning_rate": 0.0003,
     "lr_schedule": "constant",
     "gamma": 0.75,
-    "n_envs": 1,  # Using a single environment
+    "n_envs": 40,  # Using a single environment
     "n_steps": 256,
     "ent_coef": 0.0,
     "n_epochs": 10,
