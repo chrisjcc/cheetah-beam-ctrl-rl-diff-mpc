@@ -73,6 +73,11 @@ def main():
     
     # ===== SB3 configuration =====
     "sb3_device": "auto",
+
+    # ===== MPC parameters =====
+    "horizon": 5,
+    "lqr_iter": 5,
+    "R_scale": 0.01,
     }
 
     # Setup wandb
@@ -127,6 +132,9 @@ def main():
             "ortho_init": config["ortho_init"],
             "log_std_init": config["log_std_init"],
             "env": env,
+            "horizon": config["horizon"],
+            "lqr_iter": config["lqr_iter"],
+            "R_scale": config["R_scale"],
         },
         device=config["sb3_device"],
         tensorboard_log=f"log/{config['run_name']}",

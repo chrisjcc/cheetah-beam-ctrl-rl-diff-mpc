@@ -83,6 +83,10 @@ def main() -> None:
         "log_std_init": 0.0,
         # SB3 config
         "sb3_device": "auto",
+        # ===== MPC parameters =====
+        "horizon": 5,
+        "lqr_iter": 5,
+        "R_scale": 0.01,
     }
     train(config)
 
@@ -183,7 +187,6 @@ def train(config: dict) -> None:
 
     # Train using a single environment
     model = PPO(
-        #"MlpPolicy",
         MPCPolicy,
         train_env,
         learning_rate=config["learning_rate"],
@@ -299,7 +302,12 @@ def make_env(
         )
 
     # Wrap environment around a differential MPC
-    mpc_controller = MPCController(env)
+    mpc_controller = MPCController(
+        env,
+        horizon=config["horizon"],
+        lqr_iter=config["lqr_iter"],
+        R_scale=config["R_scale"]
+    )
 
     # Wrap with MPCWrapper (handles 18D cost parameters)
     env = MPCWrapper(env, mpc_controller)
