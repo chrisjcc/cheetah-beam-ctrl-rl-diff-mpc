@@ -12,7 +12,11 @@ class BeamDynamics(nn.Module):
         incoming_parameters,
     ):
         super().__init__()
-        self.segment = copy.deepcopy(segment)
+
+        #self.segment = copy.deepcopy(segment)
+        # Assuming `segment` is of type nn.Module
+        self.segment = type(segment)()  # Creates a blank model of the same class
+        self.segment.load_state_dict(segment.state_dict(), strict=False) # Injects those values into the new model
 
         # Store incoming_parameters as a Parameter to ensure it stays in the graph
         self.incoming_params = copy.deepcopy(incoming_parameters)
@@ -47,22 +51,13 @@ class BeamDynamics(nn.Module):
         x = x.clone().requires_grad_(True).to(self.device)
         u = u.clone().requires_grad_(True).to(self.device)
 
-        #mu_x = torch.as_tensor(x[0, 0], dtype=x.dtype, device=x.device)
-        #mu_x.requires_grad_(True)
-        #mu_y = torch.as_tensor(x[0, 1], dtype=x.dtype, device=x.device)
-        #mu_y.requires_grad_(True)
-        #sigma_x = torch.as_tensor(x[0, 2], dtype=x.dtype, device=x.device)
-        #sigma_x.requires_grad_(True)
-        #sigma_y = torch.as_tensor(x[0, 3], dtype=x.dtype, device=x.device)
-        #sigma_y.requires_grad_(True)
-
-        # Extract parameters with batch dimension
-        mu_x = x[:, 0].clone().requires_grad_(True)  # Shape: [batch_size]
-        mu_y = x[:, 1].clone().requires_grad_(True)
-        sigma_x = x[:, 2].clone().requires_grad_(True)
-        sigma_y = x[:, 3].clone().requires_grad_(True)
-
         # Create beam with batched parameters
+        mu_x = x[:, 0]  # Shape: [batch_size]
+        mu_y = x[:, 1]
+        sigma_x = x[:, 2]
+        sigma_y = x[:, 3]
+
+        # Create beam
         beam = self.incoming.transformed_to(
             energy=self.incoming_params[0],  # Fixed, no gradients needed
             mu_x=mu_x,  # Dynamic, batched
@@ -77,19 +72,24 @@ class BeamDynamics(nn.Module):
             sigma_p=self.incoming_params[10],  # Fixed, no gradients needed
         )
 
+        # Set magnets
+        self._set_magnets(u)
+
         # Track beam
         next_beam = self.segment.track(beam)
 
         # Extract next state, preserving batch dimension
         x_next = torch.stack(
             [
-                next_beam.mu_x, #.clone().requires_grad_(True),
-                next_beam.mu_y, #.clone().requires_grad_(True),
-                next_beam.sigma_x, #.clone().requires_grad_(True),
-                next_beam.sigma_y, #.clone().requires_grad_(True),
+                next_beam.mu_x.clone().requires_grad_(True),
+                next_beam.mu_y.clone().requires_grad_(True),
+                next_beam.sigma_x.clone().requires_grad_(True),
+                next_beam.sigma_y.clone().requires_grad_(True),
             ],
             dim=-1,
-        ).to(dtype=torch.float32)  # Shape: [batch_size, 4]
+        ).to(
+            dtype=torch.float32
+        )  # Shape: [batch_size, 4]
 
         return x_next
 
@@ -97,7 +97,7 @@ class BeamDynamics(nn.Module):
         """
         Set magnet parameters based on control input u.
         """
-        # Direct assignment to preserve u's graph and  gradients
+        # Direct assignment to preserve u's graph and gradients
         self.segment.AREAMQZM1.k1 = u[:, 0].clone().requires_grad_(True)
         self.segment.AREAMQZM2.k1 = u[:, 1].clone().requires_grad_(True)
         self.segment.AREAMCVM1.angle = u[:, 2].clone().requires_grad_(True)
