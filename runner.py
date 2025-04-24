@@ -27,7 +27,7 @@ def main():
         "weight": 1.0
        }
     },
-    "action_mode": "delta",
+    "action_mode": "delta",  # Default "delta"
     "max_quad_setting": 30.0,
     "max_quad_delta": 30.0,
     "max_steerer_delta": 6.1782e-3,
@@ -53,7 +53,7 @@ def main():
     "gamma": 0.75,
     "n_envs": 40,  # Using a single environment
     "n_steps": 256,
-    "ent_coef": 0.0,
+    "ent_coef": 0.01, # Default: 0.0, try a small value (e.g., 0.01) to encourage exploration to avoid to premature convergence
     "n_epochs": 10,
     "gae_lambda": 0.95,
     "clip_range": 0.2, # Try: 0.1 to make updates more conservative.
@@ -69,15 +69,15 @@ def main():
     "net_arch": "small",
     "activation_fn": "Tanh",
     "ortho_init": True,
-    "log_std_init": 0.0,
+    "log_std_init": -1.0, # Default: 0.0,
     
     # ===== SB3 configuration =====
     "sb3_device": "auto",
 
     # ===== MPC parameters =====
     "horizon": 5,
-    "lqr_iter": 5,
-    "R_scale": 0.01,
+    "lqr_iter": 25,
+    "R_scale": 10000000.0,  # tune R_scale (e.g., 0.1, 1.0) to balance control effort and performance.
     }
 
     # Setup wandb
