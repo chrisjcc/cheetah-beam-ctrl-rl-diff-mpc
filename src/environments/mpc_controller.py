@@ -14,7 +14,7 @@ class MPCController:
     the entire MPC computation.
     """
 
-    def __init__(self, env, horizon=5, lqr_iter=5, R_scale=0.01):
+    def __init__(self, env, horizon=5, lqr_iter=5, R_scale=0.01, eps=1e-7):
         """
         Initialize the MPC controller.
 
@@ -42,6 +42,7 @@ class MPCController:
         self.horizon = horizon
         self.lqr_iter = lqr_iter
         self.R_scale = R_scale
+        self.eps = eps
 
         # Action bounds as tensors
         self.u_lower = torch.tensor(
@@ -133,7 +134,7 @@ class MPCController:
             grad_method=GradMethods.AUTO_DIFF,
             delta_u=None, # 0.1, to limit control changes per timestep, enhancing stability.
             verbose=1,  # Debug MPC internals
-            eps=1e-7,
+            eps=self.eps,
             back_eps=1e-7,
             backprop=True,
             u_init=None,

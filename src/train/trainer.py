@@ -87,6 +87,7 @@ def main() -> None:
         "horizon": 5,
         "lqr_iter": 5,
         "R_scale": 0.01,
+        "eps": 1e-07,
     }
     train(config)
 
@@ -306,7 +307,8 @@ def make_env(
         env,
         horizon=config["horizon"],
         lqr_iter=config["lqr_iter"],
-        R_scale=config["R_scale"]
+        R_scale=config["R_scale"],
+        eps=config["eps"]
     )
 
     # Wrap with MPCWrapper (handles 18D cost parameters)

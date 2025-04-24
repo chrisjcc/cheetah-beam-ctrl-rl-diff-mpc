@@ -78,6 +78,7 @@ def main():
     "horizon": 5,
     "lqr_iter": 25,
     "R_scale": 10000000.0,  # tune R_scale (e.g., 0.1, 1.0) to balance control effort and performance.
+    "eps": 1e-06, # Defaul: 1e-07
     }
 
     # Setup wandb
@@ -135,6 +136,7 @@ def main():
             "horizon": config["horizon"],
             "lqr_iter": config["lqr_iter"],
             "R_scale": config["R_scale"],
+            "eps": config["eps"],
         },
         device=config["sb3_device"],
         tensorboard_log=f"log/{config['run_name']}",

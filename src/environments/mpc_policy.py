@@ -27,6 +27,7 @@ class MPCPolicy(ActorCriticPolicy):
         horizon=15,  # typical range: 10–20 to consider longer-term effects
         lqr_iter=25, # typical range: 5–50 iterations
         R_scale=0.5, # 0.1–1.0 to penalize control effort more, encouraging smoother actions
+        eps=1e-07,   # Termination threshold, on the norm of the full control step (without line search)
         target_state_fn: Optional[Callable[[torch.Tensor], torch.Tensor]] = None,
         net_arch: Optional[List[Union[int, Dict[str, List[int]]]]] = None,
         activation_fn: Type[nn.Module] = nn.Tanh,
@@ -51,6 +52,7 @@ class MPCPolicy(ActorCriticPolicy):
         self.horizon = horizon
         self.lqr_iter = lqr_iter
         self.R_scale = R_scale
+        self.eps = eps
 
         # Function to extract target state from observation
         self.target_state_fn = (
