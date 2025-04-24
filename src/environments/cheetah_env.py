@@ -1,4 +1,5 @@
 from typing import Any, Dict, Literal, Optional, Tuple, Union
+from collections import OrderedDict
 
 import cheetah
 import cv2
@@ -6,6 +7,7 @@ import gymnasium as gym
 import numpy as np
 import torch
 from gymnasium import spaces
+
 from src.environments.base_backend import TransverseTuningBaseBackend
 from src.environments.beam_dynamics import BeamDynamics
 from src.environments.differential_area_segment import DifferentialAREASegment
@@ -133,7 +135,7 @@ class CheetahEnv(gym.Env, TransverseTuningBaseBackend):
             )
 
         # Create observation space
-        self.observation_space = spaces.Dict(
+        self.observation_space = spaces.Dict(OrderedDict(
             {
                 "beam": spaces.Box(
                     low=np.array([-np.inf, 0, -np.inf, 0], dtype=np.float32),
@@ -145,7 +147,7 @@ class CheetahEnv(gym.Env, TransverseTuningBaseBackend):
                     high=np.array([2e-3, 2e-3, 2e-3, 2e-3], dtype=np.float32),
                 ),
             }
-        )
+        ))
 
         # Create action space
         if self.action_mode == "direct":
@@ -190,7 +192,7 @@ class CheetahEnv(gym.Env, TransverseTuningBaseBackend):
         self.generate_screen_images = generate_screen_images
         self.simulate_finite_screen = simulate_finite_screen
 
-        # Initialize differentiable segment to setup simulation
+        # Initialize differentiable segment setup simulation
         self.segment = DifferentialAREASegment()
 
         # Spaces for domain randomisation
@@ -259,6 +261,7 @@ class CheetahEnv(gym.Env, TransverseTuningBaseBackend):
             incoming_parameters, dtype=torch.float32, requires_grad=True
         )
 
+        # Create beam
         self.incoming = cheetah.ParameterBeam.from_parameters(
             energy=self.incoming_params[0],
             mu_x=self.incoming_params[1],
@@ -275,10 +278,10 @@ class CheetahEnv(gym.Env, TransverseTuningBaseBackend):
         )
 
         # Create a beam dynamics model
-        #self.dynamics = BeamDynamics(
-        #    segment=self.segment,
-        #    incoming_parameters=self.incoming_params,
-        #)
+        self.dynamics = BeamDynamics(
+            segment=self.segment,
+            incoming_parameters=self.incoming_params,
+        )
 
         # Set up misalignments
         if "misalignments" in preprocessed_options:
@@ -392,17 +395,6 @@ class CheetahEnv(gym.Env, TransverseTuningBaseBackend):
 
     def get_magnets(self) -> np.ndarray:
         """Get current magnet settings."""
-        # return np.array(
-        #    [
-        #        self.segment.AREAMQZM1.k1.detach().cpu().numpy(),
-        #        self.segment.AREAMQZM2.k1.detach().cpu().numpy(),
-        #        self.segment.AREAMCVM1.angle.detach().cpu().numpy(),
-        #        self.segment.AREAMQZM3.k1.detach().cpu().numpy(),
-        #        self.segment.AREAMCHM1.angle.detach().cpu().numpy(),
-        #    ],
-        #    dtype=np.float32
-        # )
-        # torch.tensor([])
         torch_tensor = torch.stack(
             [
                 self.segment.AREAMQZM1.k1,

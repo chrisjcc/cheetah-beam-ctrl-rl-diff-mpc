@@ -6,6 +6,7 @@ import torch.nn as nn
 from rl_zoo3 import linear_schedule
 from stable_baselines3 import PPO
 from stable_baselines3.common.callbacks import EvalCallback
+#from stable_baselines3.common.env_util import make_vec_env
 from stable_baselines3.common.env_checker import check_env
 
 from wandb.integration.sb3 import WandbCallback
@@ -50,12 +51,12 @@ def main():
     "learning_rate": 0.0003,
     "lr_schedule": "constant",
     "gamma": 0.75,
-    "n_envs": 1,  # Using a single environment
+    "n_envs": 40,  # Using a single environment
     "n_steps": 256,
     "ent_coef": 0.0,
     "n_epochs": 10,
     "gae_lambda": 0.95,
-    "clip_range": 0.2,
+    "clip_range": 0.2, # Try: 0.1 to make updates more conservative.
     "clip_range_vf": None,
     "vf_coef": 0.5,
     "max_grad_norm": 0.5,
@@ -72,6 +73,11 @@ def main():
     
     # ===== SB3 configuration =====
     "sb3_device": "auto",
+
+    # ===== MPC parameters =====
+    "horizon": 5,
+    "lqr_iter": 5,
+    "R_scale": 0.01,
     }
 
     # Setup wandb
@@ -89,8 +95,8 @@ def main():
     env = make_env(config)
 
     # Check the environment
-    check_env(env, warn=True, skip_render_check=True)
-    
+    #check_env(env, warn=True, skip_render_check=True)
+
     # Setup evaluation environment
     eval_env = make_env(config, plot_episode=True, log_task_statistics=True)
 
@@ -100,8 +106,8 @@ def main():
 
     # Setup RL training algorithm
     model = PPO(
-        "MlpPolicy",
-        #MPCPolicy,  # Use the custom policy
+        #"MlpPolicy",
+        MPCPolicy,  # Use the custom policy
         env,
         learning_rate=config["learning_rate"],
         n_steps=config["n_steps"],
@@ -125,7 +131,10 @@ def main():
             }[config["net_arch"]],
             "ortho_init": config["ortho_init"],
             "log_std_init": config["log_std_init"],
-            #"env": env,
+            "env": env,
+            "horizon": config["horizon"],
+            "lqr_iter": config["lqr_iter"],
+            "R_scale": config["R_scale"],
         },
         device=config["sb3_device"],
         tensorboard_log=f"log/{config['run_name']}",

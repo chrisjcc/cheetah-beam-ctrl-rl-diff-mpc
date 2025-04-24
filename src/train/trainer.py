@@ -17,6 +17,7 @@ from wandb.integration.sb3 import WandbCallback
 
 from ..environments import cheetah_env
 from ..environments.mpc_controller import MPCController
+from ..environments.mpc_wrapper import MPCWrapper
 from ..utils import save_config
 from ..wrappers import LogTaskStatistics, PlotEpisode, RescaleObservation
 
@@ -82,6 +83,10 @@ def main() -> None:
         "log_std_init": 0.0,
         # SB3 config
         "sb3_device": "auto",
+        # ===== MPC parameters =====
+        "horizon": 5,
+        "lqr_iter": 5,
+        "R_scale": 0.01,
     }
     train(config)
 
@@ -182,7 +187,7 @@ def train(config: dict) -> None:
 
     # Train using a single environment
     model = PPO(
-        "MlpPolicy",
+        MPCPolicy,
         train_env,
         learning_rate=config["learning_rate"],
         n_steps=config["n_steps"],
@@ -270,10 +275,6 @@ def make_env(
         render_mode="rgb_array",
         reward_signals=config["reward_signals"],
     )
-
-    # Wrap environment ina differential MPC
-    env = MPCController(env)
-
     env = TimeLimit(env, config["max_episode_steps"])
     if plot_episode:
         env = PlotEpisode(
@@ -287,7 +288,8 @@ def make_env(
     if config["normalize_observation"]:
         env = RescaleObservation(env, -1, 1)
     if config["rescale_action"]:
-        env = RescaleAction(env, -1, 1)
+        #env = RescaleAction(env, -1, 1)
+        pass
     env = FlattenObservation(env)
     if config["frame_stack"] > 1:
         env = FrameStack(env, config["frame_stack"])
@@ -298,6 +300,18 @@ def make_env(
             video_folder=f"recordings/{config['run_name']}",
             episode_trigger=lambda x: x % 5 == 0,  # Once per (5x) evaluation
         )
+
+    # Wrap environment around a differential MPC
+    mpc_controller = MPCController(
+        env,
+        horizon=config["horizon"],
+        lqr_iter=config["lqr_iter"],
+        R_scale=config["R_scale"]
+    )
+
+    # Wrap with MPCWrapper (handles 18D cost parameters)
+    env = MPCWrapper(env, mpc_controller)
+
     return env
 
 
