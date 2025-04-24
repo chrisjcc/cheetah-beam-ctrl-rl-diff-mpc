@@ -7,6 +7,19 @@ This project builds on the following frameworks and methods. If you use this rep
 
 ### 🧠 Actor-Critic MPC with Differentiable Optimization
 
+
+We implement a reinforcement learning (RL) solution using the Proximal Policy Optimization (PPO) algorithm from Stable-Baselines3 to control beam parameters in a particle accelerator, specifically within the ARES Experimental Area (AREA) lattice. The system leverages a differentiable simulator (Cheetah) to model beam dynamics, and you’ve integrated Model Predictive Control (MPC) to map high-dimensional cost parameters (learned by the RL policy) to low-dimensional control actions (magnet settings). The key components are:
+
+- *CheetahEnv*: A Gym-compatible environment that simulates the accelerator lattice using DifferentialAREASegment and BeamDynamics. It defines the observation space (beam parameters, magnet settings, target), action space (magnet settings or their deltas), and reward function (based on beam alignment and focus).
+- *MPCController: Implements an MPC solver using the mpc.pytorch library to compute optimal control actions (5D magnet settings) based on cost parameters (18D, comprising q_diag and p) provided by the RL policy.
+- *MPCPolicy: A custom ActorCriticPolicy for PPO that outputs 18D cost parameters (q_diag and p) instead of direct control actions. These parameters define a quadratic cost function used by the MPC solver.
+- *MPCWrapper: A Gym wrapper that interfaces between the RL policy (outputting 18D cost parameters) and the environment (expecting 5D control actions) by using the MPCController to convert cost parameters to control actions.
+- *BeamDynamics: A differentiable model of beam dynamics that maps the current state and control inputs to the next state, used by the MPC solver for trajectory optimization.
+- *Trainer/Runner: Scripts to train the PPO agent, configure the environment, and set hyperparameters, including MPC parameters (horizon, lqr_iter, R_scale).
+
+The goal is to steer the beam to a target position (minimize alignment distance) while minimizing beam spread (focusing the beam), using a reward function that emphasizes these objectives. The approach is inspired by the paper, which uses a neural policy to learn cost parameters for an MPC solver, leveraging differentiable physics simulations to enable end-to-end training.
+
+
 This work incorporates and builds on ideas from:
 
 ```bibtex

@@ -106,8 +106,16 @@ class MPCController(gym.Wrapper):
             u_upper=u_upper,
             lqr_iter=self.lqr_iter,
             grad_method=GradMethods.AUTO_DIFF,
+            delta_u=None, # 0.1,
             verbose=1,  # Debug MPC internals
+            eps=1e-7,
+            back_eps=1e-7,
             backprop=True,
+            u_init=None,
+            backprop=True,
+            slew_rate_penalty,
+            not_improved_lim=5,
+            best_cost_eps=1e-4
         )
 
         # Create dynamics here instead of fetching it
