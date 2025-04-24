@@ -70,10 +70,18 @@ class MPCController:
         batch_size = state.shape[0]  # Should be 1 for single environment
 
         # Quadratic terms
+        Q_state = torch.diag_embed(q_diag[:, :self.state_dim])  # [1, 4, 4] for state
+        Q_control = torch.diag_embed(q_diag[:, self.state_dim:])  # [1, 5, 5] for control
+        Q_control += self.R.unsqueeze(0)  # Add fixed control cost: [1, 5, 5]
+
+        # Construct full Q matrix for [x; u]
         # Q is a diagonal matrix penalizing the combined state and control vector [x; u],
         # where x is the state (4D) and u is the control (5D).
         # Q as a diagonal matrix: [batch_size, 9, 9]
-        Q = torch.diag_embed(q_diag)  # [1, 9, 9] for batch_size=1
+        # Q = torch.diag_embed(q_diag)  # [1, 9, 9] for batch_size=1
+        Q = torch.zeros(batch_size, self.state_dim + self.action_dim, self.state_dim + self.action_dim, device=state.device)
+        Q[:, :self.state_dim, :self.state_dim] = Q_state
+        Q[:, self.state_dim:, self.state_dim:] = Q_control  # Incorporate R
 
         # Repeat for horizon (assuming same cost per step)
         # Running cost: [horizon, batch_size, 9, 9]
@@ -123,17 +131,15 @@ class MPCController:
             u_upper=u_upper,
             lqr_iter=self.lqr_iter,
             grad_method=GradMethods.AUTO_DIFF,
-            delta_u=None, # 0.1,
+            delta_u=None, # 0.1, to limit control changes per timestep, enhancing stability.
             verbose=1,  # Debug MPC internals
             eps=1e-7,
             back_eps=1e-7,
             backprop=True,
             u_init=None,
-            backprop=True,
-            slew_rate_penalty,
+            slew_rate_penalty=None,
             not_improved_lim=5,
             best_cost_eps=1e-4
-            delta_u=0.1,
         )
 
         # Create dynamics here instead of fetching it
