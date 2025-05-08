@@ -288,9 +288,6 @@ def make_env(
         env = LogTaskStatistics(env)
     if config["normalize_observation"]:
         env = RescaleObservation(env, -1, 1)
-    if config["rescale_action"]:
-        #env = RescaleAction(env, -1, 1)
-        pass
     env = FlattenObservation(env)
     if config["frame_stack"] > 1:
         env = FrameStack(env, config["frame_stack"])
@@ -313,6 +310,9 @@ def make_env(
 
     # Wrap with MPCWrapper (handles 18D cost parameters)
     env = MPCWrapper(env, mpc_controller)
+
+    if config["rescale_action"]:
+        env = RescaleAction(env, -1, 1)
 
     return env
 

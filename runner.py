@@ -78,7 +78,7 @@ def main():
     "horizon": 5,
     "lqr_iter": 25,
     "R_scale": 10000000.0,  # tune R_scale (e.g., 0.1, 1.0) to balance control effort and performance.
-    "eps": 1e-06, # Defaul: 1e-07
+    "eps": 1e-05, # Defaul: 1e-07
     }
 
     # Setup wandb
